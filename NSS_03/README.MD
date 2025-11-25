@@ -47,3 +47,18 @@ python -m app.tests
 ```bash
 python -m app.tests_unit
 ```
+
+## ✅ Expected Outcomes
+
+- **Successful Registration:**  
+  Users are provided with a TOTP URI compatible with authenticator apps.
+
+- **Login Verification:**  
+  Both the password and TOTP code are verified for authentication.
+
+- **Unit Tests:**  
+  Ensure correct functionality, including:
+  - Password hashing and verification
+  - Password strength scoring
+  - TOTP generation and v
+
