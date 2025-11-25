@@ -36,3 +36,4 @@ pip install -r requirements.txt
 ```bash
 python -m app.cli
 ```
+Follow prompts to register users or log in using TOTP.
