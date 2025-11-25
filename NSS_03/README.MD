@@ -31,3 +31,8 @@ This Python-based project demonstrates essential principles of modern authentica
 ```bash
 pip install -r requirements.txt
 ```
+
+### Run the CLI
+```bash
+python -m app.cli
+```
