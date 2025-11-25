@@ -60,5 +60,5 @@ python -m app.tests_unit
   Ensure correct functionality, including:
   - Password hashing and verification
   - Password strength scoring
-  - TOTP generation and v
+  - TOTP generation and validation
 
