@@ -1,0 +1,12 @@
+
+=== Domain Lookup (2025-11-20 13:32:46) ===
+{'error': "Resolution failed: Scanning '185.158.133.1' blocked: SAFE_MODE enabled.\nAllowed hosts: ['127.0.0.1', 'localhost']"}
+
+=== Black-Box Web Enumeration (2025-11-20 13:32:46) ===
+server: cloudflare
+content_type: Unknown
+
+=== Threaded Port Scan (2025-11-20 13:32:56) ===
+Open Ports: [135]
+
+=== Nmap Scan (2025-11-20 13:32:57) ===
