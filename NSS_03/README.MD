@@ -39,8 +39,8 @@ python -m app.cli
 Follow prompts to register users or log in using TOTP.
 
 ### Run Tests
-```bash
 # Full authentication flow
+```bash
 python -m app.tests
 ```
 # Password strength and hashing modules
