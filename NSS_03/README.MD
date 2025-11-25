@@ -26,3 +26,8 @@ This Python-based project demonstrates essential principles of modern authentica
 ---
 
 ## ⚡ How to Run
+
+### Install dependencies
+```bash
+pip install -r requirements.txt
+```
