@@ -6,22 +6,22 @@ This Python-based project demonstrates essential principles of modern authentica
 
 ## 🧰 Technologies Used
 
-- **Python 3** – Core development language  
-- **bcrypt / hashlib** – Secure password hashing with salts and optional pepper  
-- **pyotp** – TOTP generation and verification for 2FA  
-- **json / os** – Simple user storage via JSON mock database  
-- **string / math** – Password strength evaluation  
+- **Python 3** – Development language
+- **bcrypt / hashlib** – Provide secure password hashing with salts while enabling optional pepper  
+- **pyotp** – Core authentication TOTP generation and verification for 2FA  
+- **json / os** – User storage via JSON mock database  
+- **string / math** – Enables matrices for password strength evaluation  
 
 ---
 
 ## ⭐ Main Features
 
-- **Password Strength Enforcement:** Rejects weak or common passwords.  
+- **Password Strength Enforcement:** Rejects users from entering weak or common passwords.  
 - **Secure Password Hashing:** Supports bcrypt or PBKDF2 with salts and optional pepper.  
-- **TOTP Two-Factor Authentication:** Unique secrets per user compatible with authenticator apps.  
+- **TOTP Two-Factor Authentication:** Requires users to enter a code generated on authenticator apps.  
 - **User Authentication:** Validates both password and TOTP.  
-- **Mock Database:** Stores hashed passwords and TOTP secrets in users.json.  
-- **CLI & Tests:** Interactive CLI and automated tests for registration, login, and hashing/strength checks.  
+- **Mock Database:** Acts as a storage to provide a database of hashed passwords and TOTP secrets in users.json.  
+- **CLI & Tests:** Interactive CLI and automated tests which enable easy and quick system feature validation for registration, login, and hashing/strength checks.  
 
 ---
 
