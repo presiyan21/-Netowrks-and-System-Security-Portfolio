@@ -33,7 +33,7 @@ My interest in defensive security and my Networks & System Security syllabus ove
 Required Skill / Qualification | I Have This Skill? | Evidence (from CV / modules) | How to Develop (If Missing)
 ---|---|---|---
 Python programming | Yes | Used in robotics pipelines, chatbot, teaching internship | Continue building ML and automation projects
-Java / software engineering | Yes | Taught Java, built learning resources; uni modules | Build backend security tools or APIs
+Java / software engineering | Yes | Built learning resources; uni modules | Build backend security tools or APIs
 Data analysis & data pipelines | Developing | Robotics sensor-fusion pipelines; Data Programming for AI | Complete online SQL/ETL courses; build ETL portfolio project
 Cloud computing (Azure/AWS/GCP) | Developing | Used Google Cloud Platform | Gain cloud certifications (Azure Fundamentals or AWS Cloud Practitioner)
 Machine learning foundations | Developing | Modules: Machine Learning, AI; robotics perception models | Implement supervised/unsupervised models end-to-end
@@ -46,13 +46,11 @@ SQL | Yes | Taught SQL; used in several uni projects | Complete advanced SQL/ana
 Data storytelling / presenting insights | Developing | Teaching internship; project documentation | Present more visual dashboards (Tableau, Power BI)
 Cyber security awareness | Developing | Certifications listed on CV | Build security projects (e.g., log analysis, vulnerability scanning)
 Analytical thinking | Yes | Robotics sensor analysis, AI modelling | Continue algorithmic problem-solving challenges
-A-level requirement / 2:1+ | Yes | On track for a 1st; A-levels achieved | Maintain grade trajectory
 Willingness to learn / adaptability | Yes | Experience working across robotics, education, security admin | Build cross-disciplinary personal projects
 Coding confidence | Yes | Python, Java, JS, GCP projects | Deepen code-review and clean-code practice
 Data engineering (pipelines, ETL) | Developing | Robotics pipelines | Build cloud-based ETL solutions
 Risk identification & mitigation | Developing | Security admin role; OS & Networks module | Study threat-modelling frameworks (STRIDE, DREAD)
 AI/ML model development | Developing | Coursework + robotics perception models | Build portfolio ML models
-Right to work / location | Yes | Based in UK | —
 
 ---
 
@@ -62,5 +60,6 @@ We looked into our respective graduate jobs right through our peer discussions a
 My skills to work well in closed and controlled system environments remain one of my strongest abilities. My companion, on the other hand, presented considerable expertise within both teaching and machine learning. Those advantages indicated the manner in which many different kinds of experiences could prove desirable to companies. With every factor taken into account, this conversation led to us reflecting more critically regarding just how suited we can be for the job market, while we left having far more specific strategies about how volunteering, technical certifications, and approaching coursework might help us make up existing gaps. Despite the paths we choose being somewhat distinct, we found it reassuring when we learnt that our personal growth desires were remarkably alike.
 
 ---
+
 
 
