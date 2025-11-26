@@ -55,7 +55,7 @@ Simulates connections and logs anomalies to network_alerts.csv.
 ```bash
 python signature_scan.py
 ```
-###4️⃣ Simulate Worm Infection
+### 4️⃣ Simulate Worm Infection
 ```bash
 python worm_simulation.py
 ```
