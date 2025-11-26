@@ -52,9 +52,11 @@ python -m app.tests_unit
 
 - **Successful Registration:**  
   Users are provided with a TOTP URI compatible with authenticator apps.
+  ![alt text](<Screenshot 2025-11-25 141747.png>)
 
 - **Login Verification:**  
   Both the password and TOTP code are verified for authentication.
+![alt text](<Screenshot 2025-11-25 142121.png>)
 
 - **Unit Tests:**  
   Ensure correct functionality, including:
@@ -62,5 +64,6 @@ python -m app.tests_unit
   - Password strength scoring
   - TOTP generation and validation
 
+## System Architecture
 
-
+![alt text](<Screenshot 2025-11-20 232559.png>)
