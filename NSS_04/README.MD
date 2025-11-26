@@ -55,7 +55,10 @@ Simulates connections and logs anomalies to network_alerts.csv.
 ```bash
 python signature_scan.py
 ```
+Outputs any files in test_folder containing defined suspicious patterns.
+
 ### 4️⃣ Simulate Worm Infection
 ```bash
 python worm_simulation.py
 ```
+Displays infection counts per step to illustrate worm spread dynamics.
