@@ -43,3 +43,19 @@ Models a self-replicating worm spreading between hosts. Each infected host attem
 ```bash
 python file_integrity_checker.py
 ```
+Creates file_baseline.csv with SHA-256 hashes and timestamps.
+
+### 2️⃣ Monitor Network Traffic
+```bash
+python network_monitor.py
+```
+Simulates connections and logs anomalies to network_alerts.csv.
+
+### 3️⃣ Scan for Malicious Signatures
+```bash
+python signature_scan.py
+```
+###4️⃣ Simulate Worm Infection
+```bash
+python worm_simulation.py
+```
