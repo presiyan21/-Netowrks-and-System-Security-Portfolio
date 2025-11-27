@@ -72,61 +72,57 @@ python -m app.tests_unit
 
 ## Lab Report
 
-## 🔒 Password Strength Analysis
+## Password Strength Analysis
 
-One of the first tools built to ensure user credentials are sufficiently strong. Constituent metrics consist of:
-
-* Minimum length: ≥ 8 characters
-* Strong length: ≥ 12 characters
-* Character variety: lowercase, uppercase, digits, symbols
-
-To strengthen the toolkit, a blacklist of commonly compromised passwords is included, prompting users to choose a different one. For example:
+One of the first tools built to ensure user credentials are sufficiently strong. The meter's metrics consist of (≥8 chars, ≥12 chars) and character variety (lowercase, uppercase, digits, symbols). Furthermore, to strengthen the toolkit, another chosen feature was a blacklist consisting of commonly compromised passwords and prompting users to choose a different one. For example, the code returns:
 
 ```python
 >> strength("password")
-(0, ['This password appears in breach lists.',
-     'Use both upper and lowercase letters.',
-     'Add numbers.',
-     'Add symbols for extra entropy.'])
+(0, ['This password appears in breach lists.', 'Use both upper and lowercase letters.', 'Add numbers.', 'Add symbols for extra entropy.'])
 
 >> strength("StrongPass123!")
 (6, [])
 ```
 
-This output indicates the user-chosen `"password"` scores 0 and triggers feedback prompts like "add uppercase, digits, and symbols". In contrast, `"StrongPass123!"` scores 6 with no errors shown.
+This output indicates the user-chosen "password" scores 0 and triggers feedback (appears in breach lists) prompts like "add uppercase, digits, and symbols". By doing so in contrast, "StrongPass123!" scores 6 on our scale with no visible errors shown.
 
-Entropy, a concept used in science (e.g., physics, chemistry) to measure disorder, can also be estimated for passwords using the formula:
+Entropy being another concept primarily studied in different aspects of science like chemistry or physics (measuring the amount of disorder), we can estimate it in passwords using the formula `E = L·log₂(pool)`, pool being the number of possible characters (e.g. 52 lower and uppercase in English, 10 digits, etc.). Using our examples from earlier, "password" makes use of just 26 lowercases, in contrast, the other candidate "StrongPass123!" makes use of all classes. Therefore, entropy is sufficiently higher using the equation, proving why it’s stronger.
 
-```
-E = L * log2(pool)
-```
-
-Where `pool` is the number of possible characters (e.g., 52 letters, 10 digits, symbols, etc.). Using this formula:
-
-* `"password"` uses only 26 lowercase letters → low entropy
-* `"StrongPass123!"` uses all character classes → higher entropy
-
-**Takeaways:** Minimum length (8/12 chars), mixed character types, avoid common passwords.
-
-Sample code:
+Takeaways: Minimum length (8/12 chars), mixed char types, no common passwords.
 
 ```python
+# Sample code:
 score, feedback = strength("Pass1234")
-# score = 3
-# feedback = ['Add symbols for extra entropy.']
+# score=3, feedback=['Add symbols for extra entropy.']
 ```
 
 ---
 
-## 🔐 Secure Password Hashing (Salt and Pepper)
+## Secure Password Hashing (Salt and Pepper)
 
-To strengthen the system, passwords are hashed using **bcrypt** (preferred) or **PBKDF2** (fallback). Key points:
+With the goal to further strengthen our system, we hash passwords with bcrypt (if available) when not possible, the alternative fallback is PBKDF2. Highlighted by OWASP, hashing is one-way, so it cannot be “decrypted” back to the password. Making it exceptionally successful for password validation. Taking all the listed factors into consideration is why passwords are never stored in plaintext, while also avoiding reversible encryption.
 
-* **One-way hashing**: Cannot be decrypted, ensuring password security
-* **Avoid fast hashes** like SHA-256 for password storage (vulnerable to brute-force/rainbow attacks)
-* **bcrypt advantages**: Slow, adaptive, auto-salts each password, work factor tunable (default cost=12)
+MD5 and SHA-256 comparisons lead to the conclusion that fast hashes like SHA-256 are too fast for password storage while also being vulnerable to brute-force attacks. Its inherent speed leads to both highly susceptible brute-force and rainbow table attacks. In contrast, the design of bcrypt makes it better suited by offering to be slow and adaptive. My `hash_password()` function uses `bcrypt.hashpw`, generating a string like `"$2b$12$..."` that embeds the salt and cost factor. The result output is extremely long (60+ chars), unlike the short hex of SHA-256. Crucially, bcrypt auto-salts each individual password while allowing the freedom to custom-tune the work factor (my model used cost=12 as default). When verifying, `bcrypt.checkpw` recomputes with the same salt.
 
-Example with bcrypt:
+Even without bcrypt, our PBKDF2 fallback adds a random salt:
+
+```python
+salt = os.urandom(16)
+dk = hashlib.pbkdf2_hmac('sha256', password, salt, 200000)
+hash = f"pbkdf2$200000${salt.hex()}${dk.hex()}"
+```
+
+The salt is stored alongside the hash. Subsequently helps to defeat rainbow tables by requiring unique hashes per password. OWASP puts an emphasis on the fact that each unique salt forces an attacker to crack each hash separately, significantly reducing bulk cracking efficiency. Modern functions (Argon2, bcrypt, PBKDF2) do this automatically.
+
+We also introduced a static pepper (`AUTH_PEPPER` from the environment). A pepper is a secret global key added to every password before hashing. It is not stored in the database. In terms of code, the implementation is:
+
+```python
+hash_password(password + PEPPER)
+```
+
+Further simplified, if the hash DB is stolen, an attacker not possessing the pepper lacks resources to validate guesses. OWASP suggests pepper must be kept separate from the database (e.g. in an HSM or config). In practice, handling a pepper requires careful management: if the pepper is changed, it results in all existing hashes becoming invalid (a well-known limitation). Also, our pepper was optional (os.getenv default empty), so testing required ensuring a consistent environment.
+
+* Example: The same password hashed twice with bcrypt produces different outputs (due to salt), e.g.:
 
 ```python
 >>> bcrypt.hashpw(b"secret", bcrypt.gensalt())
@@ -135,50 +131,26 @@ b"$2b$12$...A1..."
 b"$2b$12$...Z9..."
 ```
 
-Randomness is expected and desirable; output differs each time due to unique salts.
+This randomness is expected and desirable.
 
-Fallback with PBKDF2:
+* Output verification: Our test script showed successful hashing and verification:
 
-```python
-salt = os.urandom(16)
-dk = hashlib.pbkdf2_hmac('sha256', password, salt, 200000)
-hash = f"pbkdf2$200000${salt.hex()}${dk.hex()}"
 ```
-
-* Salt stored alongside hash → defeats rainbow tables
-* **Pepper**: A secret global key (e.g., `AUTH_PEPPER` in env variables), added to password before hashing:
-
-```python
-hash_password(password + PEPPER)
+Hashing "test123": $2b$12$nwQbzsOy... (bcrypt hash)
+Verify check returns True
 ```
-
-* If the database is stolen, an attacker cannot validate guesses without the pepper
-* Changing the pepper invalidates all existing hashes (limitation)
 
 ---
 
-### Adding Salt and Pepper (Anti-Rainbow Defenses)
+## Adding Salt and Pepper (Anti-Rainbow Defenses)
 
-* Without salt → identical passwords yield identical hashes
-* With salt → same password produces different hashes each time
-* Adding a pepper → even with hash & salt, attacker needs pepper to crack
+Without salt, identical passwords would hash identically. With bcrypt or our PBKDF2-salt, repeated hashing yields distinct hashes, as above. To prove that, I generated two hashes for the same password and got different output each time, proving rainbow-table resistance. Adding a pepper on top means even if an attacker has the salt and hash, they also must know the secret pepper. According to OWASP, “peppers are secrets not stored along with the password database”, and they stop attackers who steal only the database. In my configured system, the pepper is in the app config (e.g. an environment variable), so it would survive even if the database dump is leaked or compromised.
 
 **Security Discussion:**
+If an attacker only gets the DB:
 
-* Attacker with only DB:
+* Unsalted SHA-256: they could look up hashes in a rainbow table immediately.
+* Salted hashes: they must brute-force each password individually (much slower).
+* Salt + pepper: they cannot even start without the pepper, essentially stalling the attack unless the pepper itself is compromised.
 
-  * Unsalted SHA-256 → immediate rainbow table lookup
-  * Salted hash → must brute-force each password individually
-  * Salt + pepper → cannot start without pepper, stalling attack
-
-* Pepper handling: pre-hash concatenation (as implemented) or post-hash HMAC-style (OWASP suggestion)
-
-* Changing pepper → forces password resets
-
-**Example Verification:**
-
-```python
-# Hashing "test123" yields bcrypt hash
-# Verification returns True
-```
-
+After accounting for this, I came into realisation of a practical issue: my code concatenates pepper before hashing (pre-hash peppering). OWASP also suggests post-hash HMAC-style peppering as an alternative. Managing the pepper is non-trivial, since changing it invalidates all accounts and forces password resets.
