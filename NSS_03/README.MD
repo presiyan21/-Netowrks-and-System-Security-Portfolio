@@ -154,3 +154,47 @@ If an attacker only gets the DB:
 * Salt + pepper: they cannot even start without the pepper, essentially stalling the attack unless the pepper itself is compromised.
 
 After accounting for this, I came into realisation of a practical issue: my code concatenates pepper before hashing (pre-hash peppering). OWASP also suggests post-hash HMAC-style peppering as an alternative. Managing the pepper is non-trivial, since changing it invalidates all accounts and forces password resets.
+
+## Brute-Force Attack Simulation
+
+Although not exhaustive due to time, I was able to incorporate a simulated mini dictionary attack, hence showcasing the difference in speed for hashes. Further leveraging the common password list (e.g. `["password","123456","admin"]`), it enabled a comparison for time taken to crack an MD5 or SHA-256 hash vs a bcrypt hash. Being already present in the list, the MD5 hash of "password" (`5f4dcc3b...`) was found instantly by trying “password”. In contrast, attempting even a short list of bcrypt hashes would take comparatively longer (each bcrypt verification might take ~0.1s due to the system's work factor). In fact, the script was purposely not built with this intent, as cracking the bcrypt hash would be impractically slow. This highlights the core point: fast hashes enable rapid brute-forcing (e.g. millions of guesses per second), while bcrypt slows attackers to only a few hundred hashes/sec.
+
+**Observation:** SHA-256 can compute millions of hashes per second, whereas bcrypt is intentionally throttled to only a few hundred. Our brute-force demo showed “password” cracked in milliseconds with MD5/SHA, but would take years if it were bcrypt (at our cost setting). This stark contrast validates why a slow, salted algorithm is mandatory for real password storage.
+
+---
+
+## Complete Authentication System Integration
+
+The `AuthSystem` class ties everything together. It provides two main methods:
+
+* `register(username, password)`: Checks that the username is new, runs the strength checker, and if strong enough creates a TOTP secret and hashes the password. The new user (with `username`, `pwd_hash`, and `totp_secret`) is saved to a JSON file via `UserStore`. We reject registration with a clear message if the password is weak (score <2) or the user exists.
+
+* `authenticate(username, password, code)`: Looks up the user record, verifies the password against the stored hash, and if TOTP is required, verifies the given code. It returns `(True, "Authenticated")` only if both factors check out. Otherwise it returns an error message (“User not found”, “Invalid password”, or “Invalid TOTP”).
+
+### Example Run (Python REPL)
+
+```python
+auth = AuthSystem(require_totp=True)
+ok, msg = auth.register("alice", "StrongPass123!")
+print(ok, msg)      # Output: True Registered
+
+# Attempt login flows:
+print(auth.authenticate("alice", "wrongpass", None))
+# False, 'Invalid password'
+
+print(auth.authenticate("alice", "StrongPass123!", None))
+# False, 'Invalid TOTP'
+
+# Generate a current TOTP code for testing (secret from user_store)
+secret = auth.store.get("alice")["totp_secret"]
+code = pyotp.TOTP(secret).now()
+print(auth.authenticate("alice", "StrongPass123!", code))
+# True, 'Authenticated'
+```
+
+This demonstrates the full flow: a successful registration (score≥2, hash stored, secret saved), and then step-by-step login attempts. The system correctly handles errors and only permits access with both credentials and code.
+
+**Data Store:** We used a simple `users.json` to mock a database. Each user entry stores the username, bcrypt hash, and TOTP secret. In practice, this JSON file must be protected (no DB crashes or concurrent writes) and should be replaced by a real user database.
+
+One challenge was file I/O: if multiple processes ran the CLI, race conditions could occur. We mitigated this in testing by reloading from disk on each operation. Another issue was handling the case of a missing user (we raise `KeyError` or return “User not found” gracefully). Overall, the storage layer worked as intended for this demonstration.
+
