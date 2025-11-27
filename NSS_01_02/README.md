@@ -1,4 +1,4 @@
-# Graduate Job Research & Peer Discussion Reflection
+# Job Research & Peer Discussion Reflection
 
 ---
 
@@ -60,6 +60,7 @@ We looked into our respective graduate jobs right through our peer discussions a
 My skills to work well in closed and controlled system environments remain one of my strongest abilities. My companion, on the other hand, presented considerable expertise within both teaching and machine learning. Those advantages indicated the manner in which many different kinds of experiences could prove desirable to companies. With every factor taken into account, this conversation led to us reflecting more critically regarding just how suited we can be for the job market, while we left having far more specific strategies about how volunteering, technical certifications, and approaching coursework might help us make up existing gaps. Despite the paths we choose being somewhat distinct, we found it reassuring when we learnt that our personal growth desires were remarkably alike.
 
 ---
+
 
 
 
