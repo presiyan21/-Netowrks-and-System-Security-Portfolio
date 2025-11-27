@@ -133,7 +133,7 @@ b"$2b$12$...Z9..."
 
 This randomness is expected and desirable.
 
-* Output verification: Our test script showed successful hashing and verification:
+* Output verification: The test script showed successful hashing and verification:
 
 ```
 Hashing "test123": $2b$12$nwQbzsOy... (bcrypt hash)
@@ -194,7 +194,7 @@ print(auth.authenticate("alice", "StrongPass123!", code))
 
 This demonstrates the full flow: a successful registration (score≥2, hash stored, secret saved), and then step-by-step login attempts. The system correctly handles errors and only permits access with both credentials and code.
 
-**Data Store:** We used a simple `users.json` to mock a database. Each user entry stores the username, bcrypt hash, and TOTP secret. In practice, this JSON file must be protected (no DB crashes or concurrent writes) and should be replaced by a real user database.
+**Data Store:** I opted to use a simple `users.json` to mock a database. Each user entry stores the username, bcrypt hash, and TOTP secret. In practice, this JSON file must be protected (no DB crashes or concurrent writes) and should be replaced by a real user database.
 
 One challenge was file I/O: if multiple processes ran the CLI, race conditions could occur. We mitigated this in testing by reloading from disk on each operation. Another issue was handling the case of a missing user (we raise `KeyError` or return “User not found” gracefully). Overall, the storage layer worked as intended for this demonstration.
 
