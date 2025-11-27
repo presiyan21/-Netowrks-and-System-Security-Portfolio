@@ -198,3 +198,84 @@ This demonstrates the full flow: a successful registration (score≥2, hash stor
 
 One challenge was file I/O: if multiple processes ran the CLI, race conditions could occur. We mitigated this in testing by reloading from disk on each operation. Another issue was handling the case of a missing user (we raise `KeyError` or return “User not found” gracefully). Overall, the storage layer worked as intended for this demonstration.
 
+## Challenges and Debugging
+
+**Environment setup:** Installing `bcrypt` and `pyotp` (with pip) was necessary. The addition of a `try/except` import for bcrypt was necessary so the code can run even if bcrypt is unavailable, falling back to PBKDF2. Initially, I forgot to encode/decode properly and saw type errors. These were fixed by ensuring we always work with bytes when hashing.
+
+```python
+# Before fix
+hashed = bcrypt.hashpw("Meridian!2024", bcrypt.gensalt()).decode()
+# TypeError: Unicode-objects must be encoded before hashing
+
+# After fix
+pwd = ("Meridian!2024" + PEPPER).encode()
+hashed = bcrypt.hashpw(pwd, bcrypt.gensalt()).decode()
+```
+
+**Output after fix:**
+
+```
+Password: Meridian!2024
+Hash: $2b$12$y3dF6G8Xo1Z5Vq1rKz0qUuHrw1XG9q6bQe1tOe3gT7hJkL9x3Yz5e
+Verification: True
+```
+
+---
+
+**PEPPER management:** Testing the pepper feature revealed that forgetting to set the `AUTH_PEPPER` environment variable would silently use an empty pepper. Hence I made the changes regarding testing environment to set a known pepper string. Further investigating that verifying passwords with an incorrect pepper correctly fails (ensuring the pepper mechanism works).
+
+```bash
+# Consistent pepper
+export AUTH_PEPPER="labSecret2025"
+$ python -m test_unit
+Password: nora.L1ve#
+Hash: pbkdf2$200000$3a9f4e12c8b7d91f$f8c3a9bd77e4f1d2c56ab9034ef1a2c9d4b77e89c3f12ab8d98c4f7a23bc19de
+Verification: True
+```
+
+---
+
+**TOTP synchronisation:** There is inherent clock dependency in TOTP. The code set `valid_window=1` to allow ±30s drift. During testing of utmost importance was to ensure the system clock was accurate, else codes would not verify
+
+```text
+Enter TOTP code from authenticator app: 482930
+(True, 'Authenticated')
+```
+
+---
+
+**User experience:** The CLI was designed to be minimalistic. For example, after registration we print the provisioning URI; in a real system I would have opted to display an actual QR image or just a link to copy. In testing, printing the URI was sufficient; however, practically, it was very inconvenient and therefore classified as a usability drawback.
+
+---
+
+**Testing edge cases:** The implementation of unit tests (`test_unit.py`) for the strength and hashing modules, and an integrated test (`test.py`) for registration/auth flows. These helped the process of catching bugs (like mishandling duplicate usernames or failing to save the JSON). For instance, I encountered that attempting to register an existing user returned the string "User exists" but I still needed to format it properly in code. This was fixed by checking `store.exists(username)` first.
+
+```python
+ok, msg = auth.register("edith", "Sable!144")
+print(ok, msg)        # True Registered
+ok, msg = auth.register("edith", "Sable!144")
+print(ok, msg)        # False User exists
+```
+
+---
+
+**Code organisation:** I refactored existing code into modules (`strength.py`, `hashing.py`, etc.) for clarity. Using a `@dataclass` for `UserRecord` improved readability. Leading to separated concerns so that each module (strength checking, hashing, TOTP, storage) could be tested independently. This modular design facilitated debugging: we could run `strength.strength("Test")` or `verify_password()` in isolation.
+
+```python
+>>> from auth.strength import analyse_password_strength
+>>> analyse_password_strength("CorrectHorseBatteryStaple")
+{
+  'password': 'CorrectHorseBatteryStaple',
+  'score': 5,
+  'entropy_bits': 110.53,
+  'length': 25,
+  'has_lower': True,
+  'has_upper': True,
+  'has_digit': False,
+  'has_symbol': False,
+  'feedback': ['Add numbers.', 'Add symbols for extra entropy.']
+}
+```
+
+This example highlights the general trade-off between entropy and user feedback, showing that even strong passphrases can be flagged as a result of additional security measures, nevertheless being important for practical authentication system design.
+
