@@ -18,22 +18,20 @@ The `test_folder` directory includes normal files (e.g. `lecture_notes.txt`, `li
 ## ⭐ Main Features
 
 ### 🔐 File Integrity Checker — `file_integrity_checker.py`
-Computes SHA-256 hashes for all files in `test_folder` and stores them in `file_baseline.csv` with timestamps, forming a baseline for detecting unauthorized modifications.
+
+Generates SHA-256 hashes for all files in `test_folder` and saves them to `file_baseline.csv`, creating a baseline for detecting unauthorized file changes.
 
 ### 🌐 Network Traffic Monitor — `network_monitor.py`
-Simulates outbound connection attempts for 50 hosts. Any host exceeding `ANOMALY_THRESHOLD` is flagged and logged to `network_alerts.csv`, demonstrating anomaly-based detection.
+
+Simulates outbound requests from 50 hosts and flags any that exceed the defined `ANOMALY_THRESHOLD`. Alerts are recorded in `network_alerts.csv` to demonstrate anomaly detection.
 
 ### 🧬 Static Signature Scanner — `signature_scan.py`
-Searches each file for suspicious code patterns such as:
-- `eval()`
-- `base64.b64decode`
-- `socket.connect`
-- `exec()`
-- `import os`  
-Results highlight files containing potentially malicious signatures.
+
+Scans files for suspicious patterns such as `eval()`, `exec()`, `socket.connect`, and `base64.b64decode`, reporting any files that contain potential malicious signatures.
 
 ### 🪱 Worm Propagation Simulator — `worm_simulation.py`
-Models a self-replicating worm spreading between hosts. Each infected host attempts random infections at each step, printing the total infections per round to visualise rapid malware propagation.
+
+Models a self-replicating worm spreading across hosts, showing how infection counts grow each round to illustrate rapid malware propagation.
 
 ---
 
