@@ -153,15 +153,3 @@ The parameter’s inputs play a crucial role in the rate of infection; hence, do
 
 **Insights and Trade-offs:**  
 In real networks, crucial factors like topology, firewall rules, and varying host vulnerabilities each have their impact, potentially causing an alteration in the curve. Ways to improve the accuracy include modelling subnets (favouring local propagation, which often speeds spread) or adding a “cure” probability to simulate patching.
-
-
-![alt text](<Screenshot 2025-11-19 141628.png>)
-
-###  5️⃣ Detect Changes
-
-```bash
-python detect_changes.py
-```
-Makes a report with any file changes
-
-![alt text](<Screenshot 2025-11-19 140227.png>)
