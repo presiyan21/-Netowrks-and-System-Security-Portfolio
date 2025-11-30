@@ -7,7 +7,7 @@ The `test_folder` directory includes normal files (e.g. `lecture_notes.txt`, `li
 
 ## 🧰 Technologies Used
 
-- **Python 3** – primary development language (standard library only)  
+- **Python ** – primary development language
 - **hashlib & pathlib** – SHA-256 hashing and filesystem traversal  
 - **csv & time** – structured CSV export and timestamp logging  
 - **random & datetime** – simulated network events with time tracking  
@@ -19,11 +19,11 @@ The `test_folder` directory includes normal files (e.g. `lecture_notes.txt`, `li
 
 ### 🔐 File Integrity Checker — `file_integrity_checker.py`
 
-Generates SHA-256 hashes for all files in `test_folder` and saves them to `file_baseline.csv`, creating a baseline for detecting unauthorized file changes.
+Generates SHA-256 hashes for all files in `test_folder` and saves them to `file_baseline.csv`, creating a baseline for detecting unauthorised file changes.
 
 ### 🌐 Network Traffic Monitor — `network_monitor.py`
 
-Simulates outbound requests from 50 hosts and flags any that exceed the defined `ANOMALY_THRESHOLD`. Alerts are recorded in `network_alerts.csv` to demonstrate anomaly detection.
+Simulates outbound requests from hosts and flags any that exceed the defined `ANOMALY_THRESHOLD`. Alerts are recorded in `network_alerts.csv` to demonstrate anomaly detection.
 
 ### 🧬 Static Signature Scanner — `signature_scan.py`
 
