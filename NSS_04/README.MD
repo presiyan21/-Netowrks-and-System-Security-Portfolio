@@ -67,6 +67,8 @@ python worm_simulation.py
 ```
 Displays infection counts per step to illustrate worm spread dynamics.
 
+![alt text](<Screenshot 2025-11-19 141628-1.png>)
+
 ### 5️⃣ Detects Changes
 ```bash
 python detect_changes.py
