@@ -64,7 +64,7 @@ Displays infection counts per step to illustrate worm spread dynamics.
 ## 🧪 Lab Report
 
 ### File Integrity Checker (`file_integrity_checker.py`)
-File Integrity Checker(file_integrity_checker.py) acts as a host-based antivirus system by generating a baseline of cryptographic hashes (SHA-256) for each file in a target folder. Upon running it, the script traverses the directory (using pathlib); therefore, it reads each file in binary mode and computes its SHA-256 digest. Subsequently, all results are saved to file_baseline.csv with columns for file path, hash, and timestamp. Hence, executing the checker on test_folder produced entries like:
+Acts as a host-based antivirus system by generating a baseline of cryptographic hashes (SHA-256) for each file in a target folder. Upon running it, the script traverses the directory (using pathlib); therefore, it reads each file in binary mode and computes its SHA-256 digest. Subsequently, all results are saved to file_baseline.csv with columns for file path, hash, and timestamp. Hence, executing the checker on test_folder produced entries like:
 
 * test_folder/lecture_notes.txt — 25915767e54... (SHA-256) — 2025-11-19 13:47:31  
 * test_folder/linear_regression.py — 5f13caea50d2... — 2025-11-19 13:47:31  
@@ -99,12 +99,12 @@ The implementation of the change-detection method further complements basic anti
 ---
 
 ### Network Traffic Monitor (`network_monitor.py`)
-Network Traffic Monitor(network_monitor.py) was developed to give real-time anomaly-based detection on network traffic. The initiation step simulates outbound connection attempts from 50 hosts over a series of time steps. As time progresses, each host generates a random number of connections, starting with a “normal” amount up to 10, with a 10% chance of a random burst (5–10 extra attempts) to simulate occasional spikes. The script uses an ANOMALY_THRESHOLD (set to 15) causing any host exceeding the threshold count to trigger an alert. Furthermore, when an anomaly is detected, the event gets captured to network_alerts.csv and prints a timestamped message.
+It was developed to give real-time anomaly-based detection on network traffic. The initiation step simulates outbound connection attempts from 50 hosts over a series of time steps. As time progresses, each host generates a random number of connections, starting with a “normal” amount up to 10, with a 10% chance of a random burst (5–10 extra attempts) to simulate occasional spikes. The script uses an ANOMALY_THRESHOLD (set to 15) causing any host exceeding the threshold count to trigger an alert. Furthermore, when an anomaly is detected, the event gets captured to network_alerts.csv and prints a timestamped message.
 
 ---
 
 ### Static Signature Scanner (`signature_scan.py`)
-Static Signature Scanner(signature_scan.py) emulates the workflow of antivirus scanning. Starting with searches across each file in our presented folder to detect known suspicious code patterns (signatures) via regular expressions. Some of the defined patterns could include calls or keywords commonly found in malware (e.g., eval(, base64.b64decode, socket.connect, exec(, import os). As it reads each file’s text content, the scanner logs any matches. As examined in our scanning test_folder flagged:
+It Emulates the workflow of antivirus scanning. Starting with searches across each file in our presented folder to detect known suspicious code patterns (signatures) via regular expressions. Some of the defined patterns could include calls or keywords commonly found in malware (e.g., eval(, base64.b64decode, socket.connect, exec(, import os). As it reads each file’s text content, the scanner logs any matches. As examined in our scanning test_folder flagged:
 
 * encoded_test.py -> Matches: ['base64\\.b64decode']  
 * test_malware.py -> Matches: ['eval\\(', 'exec\\(']  
@@ -124,7 +124,7 @@ Obfuscated or polymorphic malware can evade the observed pattern checks. In the 
 ---
 
 ### Worm Propagation Simulator (`worm_simulation.py`)
-Worm Propagation Simulator(worm_simulation.py) models how a self-replicating worm spreads through a network. It represents the network as a list of hosts (initially all clean except host 0, which is “patient zero”). As time progresses with each simulation step, every infected host makes a fixed number of random infection attempts (attempts_per_host), with infection_chance representing the probability of infection. Corresponding to each step, our script keeps track of the cumulative number of infected hosts (e.g., “Step 5: 57/200 hosts infected”).
+It models how a self-replicating worm spreads through a network. It represents the network as a list of hosts (initially all clean except host 0, which is “patient zero”). As time progresses with each simulation step, every infected host makes a fixed number of random infection attempts (attempts_per_host), with infection_chance representing the probability of infection. Corresponding to each step, our script keeps track of the cumulative number of infected hosts (e.g., “Step 5: 57/200 hosts infected”).
 
 Running the simulation (with defaults: 200 hosts, 5 attempts each, 0.4 infection chance), as we can observe in the log, typically an exponential growth curve is achieved. For instance:
 
