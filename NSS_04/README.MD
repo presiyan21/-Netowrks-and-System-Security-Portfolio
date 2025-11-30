@@ -33,6 +33,9 @@ Scans files for suspicious patterns such as `eval()`, `exec()`, `socket.connect`
 
 Models a self-replicating worm spreading across hosts, showing how infection counts grow each round to illustrate rapid malware propagation.
 
+###  📝 File Change Detection — detect_changes.py
+
+Compares current file hashes to the saved baseline in file_baseline.csv to identify modified, deleted, or newly created files, providing report of changes.
 ---
 
 ## ⚡ How to Run
