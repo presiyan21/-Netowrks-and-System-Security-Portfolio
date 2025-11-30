@@ -45,11 +45,15 @@ python file_integrity_checker.py
 ```
 Creates file_baseline.csv with SHA-256 hashes and timestamps.
 
+![alt text](image-1.png)
+
 ### 2️⃣ Monitor Network Traffic
 ```bash
 python network_monitor.py
 ```
 Simulates connections and logs anomalies to network_alerts.csv.
+
+![alt text](<Screenshot 2025-11-19 142510.png>)
 
 ### 3️⃣ Scan for Malicious Signatures
 ```bash
@@ -57,8 +61,21 @@ python signature_scan.py
 ```
 Outputs any files in test_folder containing defined suspicious patterns.
 
+![alt text](image.png)
+
 ### 4️⃣ Simulate Worm Infection
 ```bash
 python worm_simulation.py
 ```
 Displays infection counts per step to illustrate worm spread dynamics.
+
+![alt text](<Screenshot 2025-11-19 141628.png>)
+
+###  5️⃣ Detect Changes
+
+```bash
+python detect_changes.py
+```
+Makes a report with any file changes
+
+![alt text](<Screenshot 2025-11-19 140227.png>)
