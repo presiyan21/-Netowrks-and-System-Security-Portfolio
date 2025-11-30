@@ -157,9 +157,9 @@ The parameter’s inputs play a crucial role in the rate of infection; hence, do
 **Insights and Trade-offs:**  
 In real networks, crucial factors like topology, firewall rules, and varying host vulnerabilities each have their impact, potentially causing an alteration in the curve. Ways to improve the accuracy include modelling subnets (favouring local propagation, which often speeds spread) or adding a “cure” probability to simulate patching.
 
-## 🔧 Challenges & Errors (Concise Before → After)
+## 🔧 Challenges & Errors 
 
-### 1) Path Normalisation Mismatch
+### Path Normalisation Mismatch
 
 **Symptom:** `detect_changes()` flagged files as *Created* because CSV stored `test_folder\file` while runtime used `test_folder/file`.
 
@@ -175,10 +175,10 @@ current_hashes[str(file)] = hash_file(file)
 **After:**
 
 ```python
-# write normalized paths
+# write normalised paths
 writer.writerow([file.resolve().as_posix(), file_hash, timestamp])
 
-# load/compare normalized paths
+# load/compare normalised paths
 key = Path(row["File Name"]).resolve().as_posix()
 current_hashes[file.resolve().as_posix()] = hash_file(file)
 ```
@@ -187,7 +187,7 @@ current_hashes[file.resolve().as_posix()] = hash_file(file)
 
 ---
 
-### 2) Unicode / Binary Read Errors in Signature Scanner
+### Binary Read Errors in Signature Scanner
 
 **Symptom:** `signature_scan.py` crashed on binary or large files.
 
@@ -209,7 +209,7 @@ content = file_path.read_text(errors="ignore")
 
 ---
 
-### 3) Noisy Network Alerts (Threshold Tuning)
+### Noisy Network Alerts 
 
 **Symptom:** Almost every host triggered alerts.
 
@@ -233,11 +233,11 @@ if connections > adaptive_threshold:
     alert()
 ```
 
-**Effect:** Fewer false positives; alerts reflect real deviations from recent behavior.
+**Effect:** Fewer false positives
 
 ---
 
-### 4) Worm Simulation Cascade Bug
+### Worm Simulation Cascade 
 
 **Symptom:** Newly infected hosts propagated in the same step, causing unrealistic cascades.
 
@@ -259,11 +259,11 @@ for t in new_infections:
     network[t] = 1
 ```
 
-**Effect:** Proper discrete-step propagation; infection curves become realistic.
+**Effect:** Infection curves become realistic.
 
 ---
 
-### 5) Partial CSV Baseline Writes (Corruption Risk)
+### Partial CSV Baseline Writes
 
 **Symptom:** Interrupting `generate_baseline()` could leave `file_baseline.csv` truncated.
 
