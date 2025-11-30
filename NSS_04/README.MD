@@ -156,3 +156,134 @@ The parameter’s inputs play a crucial role in the rate of infection; hence, do
 
 **Insights and Trade-offs:**  
 In real networks, crucial factors like topology, firewall rules, and varying host vulnerabilities each have their impact, potentially causing an alteration in the curve. Ways to improve the accuracy include modelling subnets (favouring local propagation, which often speeds spread) or adding a “cure” probability to simulate patching.
+
+## 🔧 Challenges & Errors (Concise Before → After)
+
+### 1) Path Normalisation Mismatch
+
+**Symptom:** `detect_changes()` flagged files as *Created* because CSV stored `test_folder\file` while runtime used `test_folder/file`.
+
+**Before:**
+
+```python
+# writer
+writer.writerow([str(file), file_hash, timestamp])
+# detect
+current_hashes[str(file)] = hash_file(file)
+```
+
+**After:**
+
+```python
+# write normalized paths
+writer.writerow([file.resolve().as_posix(), file_hash, timestamp])
+
+# load/compare normalized paths
+key = Path(row["File Name"]).resolve().as_posix()
+current_hashes[file.resolve().as_posix()] = hash_file(file)
+```
+
+**Effect:** Cross-platform path matching; no false *Created/Deleted* entries.
+
+---
+
+### 2) Unicode / Binary Read Errors in Signature Scanner
+
+**Symptom:** `signature_scan.py` crashed on binary or large files.
+
+**Before:**
+
+```python
+content = file_path.read_text()  # raised UnicodeDecodeError
+```
+
+**After:**
+
+```python
+if file_path.suffix.lower() in {'.exe', '.docx'} or file_path.stat().st_size > 5_000_000:
+    raise ValueError("skip binary/large")
+content = file_path.read_text(errors="ignore")
+```
+
+**Effect:** Skips binaries, avoids crashes, while still scanning scripts.
+
+---
+
+### 3) Noisy Network Alerts (Threshold Tuning)
+
+**Symptom:** Almost every host triggered alerts.
+
+**Before:**
+
+```python
+ANOMALY_THRESHOLD = 15
+if connections > ANOMALY_THRESHOLD:
+    alert()
+```
+
+**After:**
+
+```python
+from collections import deque
+history = {h: deque(maxlen=5) for h in range(HOSTS)}
+history[host].append(connections)
+avg = sum(history[host]) / len(history[host])
+adaptive_threshold = max(ANOMALY_THRESHOLD, int(avg * 2))
+if connections > adaptive_threshold:
+    alert()
+```
+
+**Effect:** Fewer false positives; alerts reflect real deviations from recent behavior.
+
+---
+
+### 4) Worm Simulation Cascade Bug
+
+**Symptom:** Newly infected hosts propagated in the same step, causing unrealistic cascades.
+
+**Before:**
+
+```python
+if network[target] == 0 and random.random() < p:
+    network[target] = 1  # immediate update -> same-step spread
+```
+
+**After:**
+
+```python
+new_infections = []
+# collect targets during iteration
+new_infections.append(target)
+# apply after loop
+for t in new_infections:
+    network[t] = 1
+```
+
+**Effect:** Proper discrete-step propagation; infection curves become realistic.
+
+---
+
+### 5) Partial CSV Baseline Writes (Corruption Risk)
+
+**Symptom:** Interrupting `generate_baseline()` could leave `file_baseline.csv` truncated.
+
+**Before:**
+
+```python
+with open(output_csv, "w", ...) as csvfile:
+    writer.writerow(...)
+    writer.writerow(...)  # direct write
+```
+
+**After:**
+
+```python
+import tempfile, os
+with tempfile.NamedTemporaryFile("w", delete=False, newline="", encoding="utf-8") as tmp:
+    writer = csv.writer(tmp)
+    writer.writerow(...)
+os.replace(tmp.name, output_csv)
+```
+
+**Effect:** Prevents partial/corrupt baseline files; safe for concurrent runs.
+
