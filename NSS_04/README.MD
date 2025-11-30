@@ -67,6 +67,14 @@ python worm_simulation.py
 ```
 Displays infection counts per step to illustrate worm spread dynamics.
 
+### 5️⃣ Detects Changes
+```bash
+python detect_changes.py
+```
+Makes a report with any new file changes
+
+![alt text](<Screenshot 2025-11-19 140227-1.png>)
+
 ## 🧪 Lab Report
 
 ### File Integrity Checker (`file_integrity_checker.py`)
