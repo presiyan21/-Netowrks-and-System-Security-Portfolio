@@ -7,7 +7,7 @@ The `test_folder` directory includes normal files (e.g. `lecture_notes.txt`, `li
 
 ## 🧰 Technologies Used
 
-- **Python ** – primary development language
+- **Python 3** – primary development language
 - **hashlib & pathlib** – SHA-256 hashing and filesystem traversal  
 - **csv & time** – structured CSV export and timestamp logging  
 - **random & datetime** – simulated network events with time tracking  
@@ -17,21 +17,25 @@ The `test_folder` directory includes normal files (e.g. `lecture_notes.txt`, `li
 
 ## ⭐ Main Features
 
-### 🔐 File Integrity Checker — `file_integrity_checker.py`
+### 🔐 File Integrity Checker 
 
 Generates SHA-256 hashes for all files in `test_folder` and saves them to `file_baseline.csv`, creating a baseline for detecting unauthorised file changes.
 
-### 🌐 Network Traffic Monitor — `network_monitor.py`
+### 🌐 Network Traffic Monitor 
 
 Simulates outbound requests from hosts and flags any that exceed the defined `ANOMALY_THRESHOLD`. Alerts are recorded in `network_alerts.csv` to demonstrate anomaly detection.
 
-### 🧬 Static Signature Scanner — `signature_scan.py`
+### 🧬 Static Signature Scanner 
 
 Scans files for suspicious patterns such as `eval()`, `exec()`, `socket.connect`, and `base64.b64decode`, reporting any files that contain potential malicious signatures.
 
-### 🪱 Worm Propagation Simulator — `worm_simulation.py`
+### 🪱 Worm Propagation Simulator 
 
 Models a self-replicating worm spreading across hosts, showing how infection counts grow each round to illustrate rapid malware propagation.
+
+###  📝 File Change Detection 
+
+Compares current file hashes to the saved baseline in file_baseline.csv to identify modified, deleted, or newly created files, providing report of changes.
 
 ---
 
@@ -157,3 +161,134 @@ The parameter’s inputs play a crucial role in the rate of infection; hence, do
 
 **Insights and Trade-offs:**  
 In real networks, crucial factors like topology, firewall rules, and varying host vulnerabilities each have their impact, potentially causing an alteration in the curve. Ways to improve the accuracy include modelling subnets (favouring local propagation, which often speeds spread) or adding a “cure” probability to simulate patching.
+
+## 🔧 Challenges & Errors 
+
+### Path Normalisation Mismatch
+
+**Symptom:** `detect_changes()` flagged files as *Created* because CSV stored `test_folder\file` while runtime used `test_folder/file`.
+
+**Before:**
+
+```python
+# writer
+writer.writerow([str(file), file_hash, timestamp])
+# detect
+current_hashes[str(file)] = hash_file(file)
+```
+
+**After:**
+
+```python
+# write normalised paths
+writer.writerow([file.resolve().as_posix(), file_hash, timestamp])
+
+# load/compare normalised paths
+key = Path(row["File Name"]).resolve().as_posix()
+current_hashes[file.resolve().as_posix()] = hash_file(file)
+```
+
+**Effect:** Cross-platform path matching; no false *Created/Deleted* entries.
+
+---
+
+### Binary Read Errors in Signature Scanner
+
+**Symptom:** `signature_scan.py` crashed on binary or large files.
+
+**Before:**
+
+```python
+content = file_path.read_text()  # raised UnicodeDecodeError
+```
+
+**After:**
+
+```python
+if file_path.suffix.lower() in {'.exe', '.docx'} or file_path.stat().st_size > 5_000_000:
+    raise ValueError("skip binary/large")
+content = file_path.read_text(errors="ignore")
+```
+
+**Effect:** Skips binaries, avoids crashes, while still scanning scripts.
+
+---
+
+### Noisy Network Alerts 
+
+**Symptom:** Almost every host triggered alerts.
+
+**Before:**
+
+```python
+ANOMALY_THRESHOLD = 15
+if connections > ANOMALY_THRESHOLD:
+    alert()
+```
+
+**After:**
+
+```python
+from collections import deque
+history = {h: deque(maxlen=5) for h in range(HOSTS)}
+history[host].append(connections)
+avg = sum(history[host]) / len(history[host])
+adaptive_threshold = max(ANOMALY_THRESHOLD, int(avg * 2))
+if connections > adaptive_threshold:
+    alert()
+```
+
+**Effect:** Fewer false positives
+
+---
+
+### Worm Simulation Cascade 
+
+**Symptom:** Newly infected hosts propagated in the same step, causing unrealistic cascades.
+
+**Before:**
+
+```python
+if network[target] == 0 and random.random() < p:
+    network[target] = 1  # immediate update -> same-step spread
+```
+
+**After:**
+
+```python
+new_infections = []
+# collect targets during iteration
+new_infections.append(target)
+# apply after loop
+for t in new_infections:
+    network[t] = 1
+```
+
+**Effect:** Infection curves become realistic.
+
+---
+
+### Partial CSV Baseline Writes
+
+**Symptom:** Interrupting `generate_baseline()` could leave `file_baseline.csv` truncated.
+
+**Before:**
+
+```python
+with open(output_csv, "w", ...) as csvfile:
+    writer.writerow(...)
+    writer.writerow(...)  # direct write
+```
+
+**After:**
+
+```python
+import tempfile, os
+with tempfile.NamedTemporaryFile("w", delete=False, newline="", encoding="utf-8") as tmp:
+    writer = csv.writer(tmp)
+    writer.writerow(...)
+os.replace(tmp.name, output_csv)
+```
+
+**Effect:** Prevents partial/corrupt baseline files; safe for concurrent runs.
+

@@ -44,7 +44,7 @@ python main.py
 ```
 
 ### 4️⃣ View the output
-Results will display directly in the terminal.
+Results will display in the terminal.
 
 ![alt text](<Screenshot 2025-11-20 121029.png>)
 
