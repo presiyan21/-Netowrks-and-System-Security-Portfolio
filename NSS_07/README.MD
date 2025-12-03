@@ -30,28 +30,28 @@ The toolkit demonstrates how domain lookup, passive web enumeration, multi-threa
 ## ⚡ How to Run Locally
 
 
-1. **Install required packages**  
+1. 1️⃣ **Install required packages**  
 ```bash
 pip install -r requirements.txt
 ```
-Ensure Python and Nmap are included in your system PATH.  
 
 
-2. **Run the main application**  
+2. 2️⃣ **Run the main application**  
 ```bash
 python main.py
 ```
 
-3. **View the output**  
+3. 3️⃣ **View the output**  
 Results are written to `report.txt` and include:  
 - Domain IP resolution and metadata  
 - Passive web header enumeration  
 - Open ports detected by threaded scanner  
-- Service and version information from Nmap  
+- Service and version information from Nmap
+
+![alt text](image.png)
 
 ---
 
-## 📄 References
+## 🧩 System Architecture
 
-- [Python Nmap Library](https://pypi.org/project/python-nmap/)  
-- [IPAPI Public API](https://ipapi.co/)  
+![alt text](<Screenshot 2025-11-23 154526.png>)

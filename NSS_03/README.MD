@@ -27,18 +27,18 @@ This Python-based project demonstrates essential principles of modern authentica
 
 ## ⚡ How to Run
 
-### Install dependencies
+### 1️⃣ Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### Run the CLI
+### 2️⃣ Run the CLI
 ```bash
 python -m app.cli
 ```
 Follow prompts to register users or log in using TOTP.
 
-### Run Tests
+### 3️⃣ Run Tests
 #### Full authentication flow
 ```bash
 python -m app.tests
@@ -66,7 +66,7 @@ python -m app.tests_unit
 
 ![alt text](<Screenshot 2025-11-25 142121.png>)
 
-## System Architecture
+## 🧩 System Architecture
 
 ![alt text](<Screenshot 2025-11-20 232559.png>)
 

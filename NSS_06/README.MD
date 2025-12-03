@@ -45,3 +45,9 @@ python main.py
 
 ### 4️⃣ View the output
 Results will display directly in the terminal.
+
+![alt text](<Screenshot 2025-11-20 121029.png>)
+
+## 🧩 System Architecture
+
+![alt text](<Screenshot 2025-11-20 160608.png>)

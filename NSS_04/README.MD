@@ -77,6 +77,10 @@ Makes a report with any new file changes
 
 ![alt text](<Screenshot 2025-11-19 140227-1.png>)
 
+## 🧩 System Architecture
+
+![alt text](<Screenshot 2025-11-23 165147.png>)
+
 ## 🧪 Lab Report
 
 ### File Integrity Checker (`file_integrity_checker.py`)
