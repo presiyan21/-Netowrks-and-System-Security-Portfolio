@@ -90,7 +90,7 @@ Makes a report with any new file changes
 ### File Integrity Checker (`file_integrity_checker.py`)
 Acts as a host-based antivirus system by generating a baseline of cryptographic hashes (SHA-256) for each file in a target folder. Upon running it, the script traverses the directory (using pathlib); therefore, it reads each file in binary mode and computes its SHA-256 digest. Subsequently, all results are saved to file_baseline.csv with columns for file path, hash, and timestamp. Hence, executing the checker on test_folder produced entries like:
 
-* test_folder/lecture_notes.txt — 25915767e54... (SHA-256) — 2025-11-19 13:47:31  
+* test_folder/lecture_notes.txt — 25915767e543... (SHA-256) — 2025-11-19 13:47:31  
 * test_folder/linear_regression.py — 5f13caea50d2... — 2025-11-19 13:47:31  
 
 These unique fingerprints guarantee that even a single-byte change in a file will yield a completely different hash. Based on integrity-checking theory, this method proves more reliable than just simple file size or timestamp checks. Therefore, by storing the baseline, our system can later detect unauthorised modifications relying on the comparison of new hashes against this “clean” state.

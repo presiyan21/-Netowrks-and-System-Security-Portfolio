@@ -51,3 +51,5 @@ Results will display in the terminal.
 ## 🧩 System Architecture
 
 ![alt text](<Screenshot 2025-11-20 160608.png>)
+
+## 🧪 Lab Report
