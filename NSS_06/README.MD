@@ -44,4 +44,4 @@ python main.py
 ```
 
 ### 4️⃣ View the output
-Results will display directly in the terminal.
+Results will display in the terminal.
