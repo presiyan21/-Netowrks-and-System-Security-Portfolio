@@ -17,23 +17,23 @@ The `test_folder` directory includes normal files (e.g. `lecture_notes.txt`, `li
 
 ## ⭐ Main Features
 
-### 🔐 File Integrity Checker — `file_integrity_checker.py`
+### 🔐 File Integrity Checker 
 
 Generates SHA-256 hashes for all files in `test_folder` and saves them to `file_baseline.csv`, creating a baseline for detecting unauthorised file changes.
 
-### 🌐 Network Traffic Monitor — `network_monitor.py`
+### 🌐 Network Traffic Monitor 
 
 Simulates outbound requests from hosts and flags any that exceed the defined `ANOMALY_THRESHOLD`. Alerts are recorded in `network_alerts.csv` to demonstrate anomaly detection.
 
-### 🧬 Static Signature Scanner — `signature_scan.py`
+### 🧬 Static Signature Scanner 
 
 Scans files for suspicious patterns such as `eval()`, `exec()`, `socket.connect`, and `base64.b64decode`, reporting any files that contain potential malicious signatures.
 
-### 🪱 Worm Propagation Simulator — `worm_simulation.py`
+### 🪱 Worm Propagation Simulator 
 
 Models a self-replicating worm spreading across hosts, showing how infection counts grow each round to illustrate rapid malware propagation.
 
-###  📝 File Change Detection — `detect_changes.py`
+###  📝 File Change Detection 
 
 Compares current file hashes to the saved baseline in file_baseline.csv to identify modified, deleted, or newly created files, providing report of changes.
 ---
