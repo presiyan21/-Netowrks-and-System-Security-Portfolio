@@ -36,6 +36,7 @@ Models a self-replicating worm spreading across hosts, showing how infection cou
 ###  📝 File Change Detection 
 
 Compares current file hashes to the saved baseline in file_baseline.csv to identify modified, deleted, or newly created files, providing report of changes.
+
 ---
 
 ## ⚡ How to Run
