@@ -7,7 +7,7 @@ The `test_folder` directory includes normal files (e.g. `lecture_notes.txt`, `li
 
 ## 🧰 Technologies Used
 
-- **Python ** – primary development language
+- **Python 3** – primary development language
 - **hashlib & pathlib** – SHA-256 hashing and filesystem traversal  
 - **csv & time** – structured CSV export and timestamp logging  
 - **random & datetime** – simulated network events with time tracking  
