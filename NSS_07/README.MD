@@ -30,18 +30,18 @@ The toolkit demonstrates how domain lookup, passive web enumeration, multi-threa
 ## ⚡ How to Run Locally
 
 
-1. 1️⃣ **Install required packages**  
+### 1️⃣ **Install required packages**  
 ```bash
 pip install -r requirements.txt
 ```
 
 
-2. 2️⃣ **Run the main application**  
+### 2️⃣ **Run the main application**  
 ```bash
 python main.py
 ```
 
-3. 3️⃣ **View the output**  
+### 3️⃣ **View the output**  
 Results are written to `report.txt` and include:  
 - Domain IP resolution and metadata  
 - Passive web header enumeration  
