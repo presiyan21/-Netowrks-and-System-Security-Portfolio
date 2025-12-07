@@ -54,13 +54,14 @@ Results will display in the terminal.
 
 ## 🧪 Lab Report
 
-## Modules, methods and concrete examples
+## Modules, methods and examples
 
-Earlier presented and illustrated outputs and behaviours are produced by the files in `analysis/` and orchestrated in `main.py`.
+Earlier presented and illustrated outputs and behaviours are produced by the files in analysis/ and orchestrated in 
+`main.py`.
 
 ### **Hashing (hashing.py)**
 
-Integrated into the system with the purpose of computing **MD5, SHA1, and SHA256**. The code behind it loads the file and computes each digest. The process of reading whole files for smaller files doesn’t induce additional errors; however, many could be observed when working with large files and applications. Therefore, a built-in drop optimisation computes hashes in a single pass without reading the whole file. Allowing us to reduce peak memory, hence preserving the code's robustness for large binaries.
+Integrated into the system with the purpose of computing **MD5, SHA1, and SHA256.** The code behind it loads the file and computes each digest. The process of reading whole files for smaller files doesn’t induce additional errors; however, many could be observed when working with large files and applications. Therefore, a built-in drop optimisation computes hashes in a single pass without reading the whole file. Allowing us to reduce peak memory, hence preserving the code's robustness for large binaries.
 
 ```python
 h_dict = {algo: hashlib.new(algo) for algo in algorithms}
@@ -103,7 +104,7 @@ This precisely mirrors strings utilities (ASCII range 0x20–0x7E).
 
 **Trade-offs:**
 
-> The purpose of `errors='ignore'` is to prevent crashes; however, it may result in potential bottlenecks by hiding malformed encodings. My approach was to keep `min_length` tunable (default 4) and to optionally produce byte offsets for forensic traceability.
+The purpose of `errors='ignore' is to prevent crashes; however, it may result in potential bottlenecks by hiding malformed encodings. My approach was to keep `min_length` tunable (default 4) and to optionally produce byte offsets for forensic traceability.
 
 ---
 
@@ -123,13 +124,13 @@ for entry in pe.DIRECTORY_ENTRY_IMPORT:
 
 * Entry Point: `0xcf30`
 * Image Base: `0x140000000`
-* USER32.dll: `['TranslateMessage', 'ShutdownBlockReasonCreate', 'GetWindowThreadProcessId', 'SetWindowLongPtrW', 'GetWindowLongPtrW']`
-* KERNEL32.dll: `['GetTimeZoneInformation', 'GetProcessHeap', 'FreeEnvironmentStringsW', 'GetEnvironmentStringsW', 'GetPInfo']`
-* ADVAPI32.dll: `['ConvertSidToStringSidW', 'GetTokenInformation', 'OpenProcessToken', 'ConvertStringSecurityDescriptorToSecurityDescriptorW']`
+* USER32.dll: `['TranslateMessage','ShutdownBlockReasonCreate', 'GetWindowThreadProcessId', 'SetWindowLongPtrW', 'GetWindowLongPtrW']`
+* KERNEL32.dll:`['GetTimeZoneInformation', 'GetProcessHeap','FreeEnvironmentStringsW', 'GetEnvironmentStringsW', 'GetPInfo']`
+* ADVAPI32.dll:`['ConvertSidToStringSidW', 'GetTokenInformation', 'OpenProcessToken', 'ConvertStringSecurityDescriptorToSecurityDescriptorW']`
 
 **Analysis:**
 
-> Malware triage facilitates the preview of suspicious imports (e.g., **VirtualAllocEx**, **CreateRemoteThread**, **GetProcAddress**), some of which could be considered as indicators of code injection or dynamic resolution. `ShutdownBlockReasonCreate` and various ADVAPI functions were observed during experimentation, **not necessarily associated with malicious software**, which highlights that the correlation between suspicious scripts and malware doesn’t always apply.
+Malware triage facilitates the preview of suspicious imports (e.g.,**VirtualAllocEx**,**CreateRemoteThread**, **GetProcAddress**), some of which could be considered as indicators of code injection or dynamic resolution. `ShutdownBlockReasonCreate` and various ADVAPI functions were observed during experimentation, **not necessarily associated with malicious software**, which highlights that the correlation between suspicious scripts and malware doesn’t always apply.
 
 > To further account for various files `Pefile.PE()` can raise `pefile.PEFormatError` for corrupt/non-PE files.
 
