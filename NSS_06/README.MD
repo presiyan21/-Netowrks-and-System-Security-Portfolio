@@ -72,11 +72,11 @@ hashes = {a: h.hexdigest() for a,h in h_dict.items()}
 ```
 
 **main.py output:**
-
-> MD5: 8e88ea01fc1fece5ab611e3a42181bbd
-> SHA1: ed6ceed3ee85acb90e54e15211…
-> SHA256: 6b2e2eabe78c2c0ac78397f4b…
-
+```python
+ MD5: 8e88ea01fc1fece5ab611e3a42181bbd
+ SHA1: ed6ceed3ee85acb90e54e15211…
+ SHA256: 6b2e2eabe78c2c0ac78397f4b…
+```
 **Why this matters:** *hashes are canonical IOCs used for sharing and quick reputation checks.*
 
 ---
