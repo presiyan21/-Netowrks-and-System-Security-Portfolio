@@ -1,6 +1,6 @@
 # 🔍 Penetration Testing Toolkit
 
-A Python-based application designed to perform reconnaissance and scanning for penetration testing exercises.  
+A Python-based application designed to perform reconnaissance and scanning for penetration testing.  
 The toolkit demonstrates how domain lookup, passive web enumeration, multi-threaded port scanning, and Nmap-based service enumeration can be combined to simulate early-stage penetration tests in a safe and controlled environment.
 
 ---
@@ -22,7 +22,7 @@ The toolkit demonstrates how domain lookup, passive web enumeration, multi-threa
 - Conducts **passive web enumeration** to collect HTTP headers  
 - Executes **threaded TCP port scans** for faster discovery  
 - Integrates **Nmap service detection** for detailed port and service info  
-- Writes **timestamped structured reports** suitable for academic or professional review  
+- Writes **timestamped structured reports** suitable for review  
 - Implements **SAFE_MODE** to prevent unauthorized scanning of external hosts  
 - Supports **configurable target domains and ports** for flexible testing  
 - Modular design allows easy extension for additional reconnaissance or scanning features  
@@ -57,3 +57,195 @@ Results are written to `report.txt` and include:
 ![alt text](<Screenshot 2025-11-23 154526.png>)
 
 ## 🧪 Lab Report
+
+## Implementation — Modules & Examples from the Codebase
+
+### Core Utilities
+
+**`core.utils.safe_socket()`** creates a socket with a timeout and is used with a `with` statement:
+
+```python
+def safe_socket(timeout=1.0):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.settimeout(timeout)
+    return sock
+```
+
+**`core.utils.timestamp()`** centralises timestamps for all reports.
+
+**Why this matters:** centralised utilities reduce potential duplication (single timeout config) hence resulting in consistent behaviour across scanning of modules.
+
+---
+
+### Safety / Validation
+
+**`core.validators.validate_host()`** enforces `SAFE_MODE`:
+
+```python
+from config.settings import SAFE_MODE, ALLOWED_HOSTS
+
+def validate_host(host):
+    if not SAFE_MODE:
+        return True
+
+    if host in ALLOWED_HOSTS:
+        return True
+
+    raise PermissionError(
+        f"Scanning '{host}' blocked: SAFE_MODE enabled.\n"
+        f"Allowed hosts: {ALLOWED_HOSTS}"
+    )
+```
+
+**Practical effect:** any attempt to scan a disallowed IP raises `PermissionError`. Observed in the `report.txt`:
+
+```
+=== Domain Lookup (2025-11-20 13:32:46) ===
+{'error': "Resolution failed: Scanning '185.158.133.1' blocked: SAFE_MODE enabled.\nAllowed hosts: ['127.0.0.1', 'localhost']"}
+```
+
+**Why this matters:** legal/ethical safety is a core requirement for network tooling; `SAFE_MODE` solidifies our application by preventing accidental scanning of external infrastructure during development.
+
+---
+
+### Passive Web Enumeration
+
+**`reconnaissance.passive_recon.fetch_headers()`** calls `requests.head()`:
+
+```python
+res = requests.head(url, timeout=3, headers={"User-Agent": USER_AGENT})
+return {
+    "server": res.headers.get("Server", "Hidden/Unknown"),
+    "content_type": res.headers.get("Content-Type", "Unknown"),
+}
+```
+
+**Notes:** using `HEAD` is lightweight; the User-Agent is configurable via `config.settings.USER_AGENT`. The recorded example shows Cloudflare as the server:
+
+```
+=== Black-Box Web Enumeration (2025-11-20 13:32:46) ===
+server: cloudflare
+content_type: Unknown
+```
+
+---
+
+### Domain Lookup
+
+**`reconnaissance.domain_lookup.lookup_domain()`** resolves domain → IP and enriches with geo/org metadata (via an external IP API), while respecting `validate_host()` so `SAFE_MODE` can block external IPs.
+
+**Why this matters:** enrichment further improves our work on triage targets, hence our code defers to `SAFE_MODE` before making network-enriching requests.
+
+---
+
+### Threaded Port Scanner
+
+**`scanning.threaded_port_scanner.threaded_scan()`** uses a `ThreadPoolExecutor` to parallelise TCP connect checks via `scanning.basic_port_scanner.scan_port()`:
+
+```python
+def threaded_scan(host, ports, workers=20):
+    validate_host(host)
+    results = []
+
+    def task(port):
+        return port if scan_port(host, port) else None
+
+    with ThreadPoolExecutor(max_workers=workers) as exe:
+        for r in exe.map(task, ports):
+            if r:
+                results.append(r)
+
+    return sorted(results)
+```
+
+**Design points & example:**
+
+* `scan_port()` uses `safe_socket()` and `sock.connect_ex((host, port))` returning `True` for open ports.
+* The main run scans `127.0.0.1` ports 1-200 and the report shows an example result: `Open Ports: [135]`.
+* `test_threaded.py` offers a quick local check:
+
+```python
+from scanning.threaded_port_scanner import threaded_scan
+print(threaded_scan('127.0.0.1', range(1,100)))
+```
+
+**Why this matters:** concurrency reduces wall-clock scanning time for many ports; mapping with a thread pool enables us to keep simplicity while maintaining robustness.
+
+---
+
+### Nmap Integration
+
+**`scanning.nmap_interface.nmap_service_scan()`** wraps python-nmap:
+
+```python
+scanner = nmap.PortScanner()
+scanner.scan(host, port_range, arguments="-sV")
+...
+for h in scanner.all_hosts():
+    for proto in scanner[h].all_protocols():
+        for port, data in scanner[h][proto].items():
+            findings.append(
+                f"{h}:{port} {data['state']} → {data.get('name','?')} {data.get('version','')}"
+            )
+```
+
+**Why this matters:** Nmap further elevates the robust service/version detection (`-sV`) and complements raw TCP connect results with service names and version strings for richer reporting.
+
+---
+
+### Reporting
+
+**`core.report_writer.write_report()`** appends timestamped sections to `report.txt`:
+
+```python
+with open(path, "a") as f:
+    f.write(f"\n=== {title} ({timestamp()}) ===\n")
+    for line in data:
+        f.write(f"{line}\n")
+```
+
+**Why this matters:** human-readable, timestamped logs are ideal for evidence in assignments and professional reports. The file shows combined domain lookup, passive headers, threaded scan and nmap outputs.
+
+---
+
+### Results (Observed During Runs)
+
+```
+=== Domain Lookup (2025-11-20 13:32:46) ===
+{'error': "Resolution failed: Scanning '185.158.133.1' blocked: SAFE_MODE enabled.\nAllowed hosts: ['127.0.0.1', 'localhost']"}
+
+=== Black-Box Web Enumeration (2025-11-20 13:32:46) ===
+server: cloudflare
+content_type: Unknown
+
+=== Threaded Port Scan (2025-11-20 13:32:56) ===
+Open Ports: [135]
+```
+
+**`test_threaded.py`** is a minimal functional test:
+
+```python
+from scanning.threaded_port_scanner import threaded_scan
+print(threaded_scan('127.0.0.1', range(1,100)))
+```
+
+---
+
+### Analysis — Correctness, Trade-offs, and Limitations
+
+**Concurrency & Performance:**
+
+* Threaded scanning (20 workers) is an effective, low-complexity approach for I/O-bound TCP connect checks.
+* **Trade-offs:** too few workers → slow scans; too many → thread scheduling overhead, connection storms, or local resource exhaustion.
+* The ideal worker count depends on the host OS, network stack, and target latency.
+
+**Accuracy of Service Detection:**
+
+* Raw `connect_ex()` tells you port state (open/closed), but not service details. Nmap fills that gap via `-sV`.
+* **Limitation:** python-nmap depends on the locally installed nmap binary and proper permissions. If nmap is missing or runs with restricted privileges, `nmap_service_scan()` returns an error object.
+
+**Robustness and Error Handling:**
+
+* Network code correctly uses timeouts and exception blocks in `passive_recon.fetch_headers()` and `domain_lookup()`.
+* **Opportunity:** unify timeout values — `config.settings.DEFAULT_TIMEOUT` exists but `safe_socket()` uses a hard-coded 1.0 default. Centralising the timeout would reduce divergence.
+
