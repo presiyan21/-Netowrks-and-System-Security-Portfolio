@@ -104,7 +104,7 @@ This precisely mirrors strings utilities (ASCII range 0x20–0x7E).
 
 **Trade-offs:**
 
-The purpose of **`errors='ignore'** is to prevent crashes; however, it may result in potential bottlenecks by hiding malformed encodings. My approach was to keep **`min_length`** tunable (default 4) and to optionally produce byte offsets for forensic traceability.
+The purpose of `errors='ignore' is to prevent crashes; however, it may result in potential bottlenecks by hiding malformed encodings. My approach was to keep `min_length` tunable (default 4) and to optionally produce byte offsets for forensic traceability.
 
 ---
 
@@ -231,7 +231,7 @@ ips = re.findall(
 
 **Effect:**
 
-> Eliminates impossible IPv4 addresses (e.g., `999.999.999.999`) and removes noisy tokens like `6.0.0.0`, improving IOC quality for SIEM/TI ingestion.
+Eliminates impossible IPv4 addresses (e.g., `999.999.999.999`) and removes noisy tokens like `6.0.0.0`, improving IOC quality for SIEM/TI ingestion.
 
 ---
 
