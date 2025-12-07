@@ -104,7 +104,7 @@ This precisely mirrors strings utilities (ASCII range 0x20–0x7E).
 
 **Trade-offs:**
 
-The purpose of `errors='ignore' is to prevent crashes; however, it may result in potential bottlenecks by hiding malformed encodings. My approach was to keep `min_length` tunable (default 4) and to optionally produce byte offsets for forensic traceability.
+The purpose of **`errors='ignore'** is to prevent crashes; however, it may result in potential bottlenecks by hiding malformed encodings. My approach was to keep **`min_length`** tunable (default 4) and to optionally produce byte offsets for forensic traceability.
 
 ---
 
@@ -132,7 +132,7 @@ for entry in pe.DIRECTORY_ENTRY_IMPORT:
 
 Malware triage facilitates the preview of suspicious imports (e.g.,**VirtualAllocEx**,**CreateRemoteThread**, **GetProcAddress**), some of which could be considered as indicators of code injection or dynamic resolution. `ShutdownBlockReasonCreate` and various ADVAPI functions were observed during experimentation, **not necessarily associated with malicious software**, which highlights that the correlation between suspicious scripts and malware doesn’t always apply.
 
-> To further account for various files `Pefile.PE()` can raise `pefile.PEFormatError` for corrupt/non-PE files.
+To further account for various files `Pefile.PE()` can raise `pefile.PEFormatError` for corrupt/non-PE files.
 
 ---
 
@@ -152,7 +152,7 @@ The URL regex is pragmatic for triage; the IP regex is to be compatible with rea
 * URLs found: `['http://schemas.microsoft.com/SMI/2016/WindowsSettings']`
 * IPs found: `['6.0.0.0']`
 
-> `6.0.0.0` not an insightful IPv4 host in most contexts, implying that it would be filtered out by an industry-configured IP validation system. Therefore, opt for a permissive regex with the improved pattern below to reduce impossible addresses. However, for the purpose of my application, we would stick with the simple version.
+`6.0.0.0` not an insightful IPv4 host in most contexts, implying that it would be filtered out by an industry-configured IP validation system. Therefore, opt for a permissive regex with the improved pattern below to reduce impossible addresses. However, for the purpose of my application, we would stick with the simple version.
 
 **Real-world script:**
 
@@ -180,7 +180,7 @@ rule ContainsHTTP {
 }
 ```
 
-> In this run the minimal rule matched (the report shows `ContainsHTTP`), the root of which was found to be the presence of the URL found by the IOC extraction.
+In this run the minimal rule matched (the report shows `ContainsHTTP`), the root of which was found to be the presence of the URL found by the IOC extraction.
 
 ---
 
@@ -205,7 +205,7 @@ except pefile.PEFormatError:
 
 **Effect:**
 
-> Batch processing continues without interruption; “invalid PE” inputs are safely reported for review.
+Batch processing continues without interruption; “invalid PE” inputs are safely reported for review.
 
 ---
 
@@ -252,4 +252,4 @@ Processes isolate `pefile`’s internal state.
 
 **Effect:**
 
-> Deterministic behaviour across large workloads, improved throughput on multi-core systems, and full stability during parallel analysis operations.
+Deterministic behaviour across large workloads, improved throughput on multi-core systems, and full stability during parallel analysis operations.
