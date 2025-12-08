@@ -56,8 +56,6 @@ pytest tests/
 
 ---
 
-```
-
 ## Key findings
 
 ### **Prompt injection**
@@ -85,8 +83,6 @@ pytest tests/
 * **Approach:** repeated structured prompts (3 repeats).  
 * **Outcome:** highly consistent answers for high-level conceptual prompts, indicating **low output diversity** for those prompts (`unique_responses == 1`).  
 * **Interpretation:** consistent outputs are useful for stability but may facilitate **extraction attacks** where an attacker repeatedly queries to reconstruct behaviour or underlying response templates.
-```
-
 
 ---
 
@@ -125,4 +121,5 @@ def sanitize_input(text: str) -> str:
 - The sanitiser is **pattern-based** and can miss obfuscated override attempts (e.g., synonym substitution, encoded payloads).  
 - **In-session poisoning simulation** does not emulate true retraining risks — this is acknowledged in code comments.  
 - **Extraction tests** show deterministic outputs; in a real deployment, **rate-limiting** and response **randomisation (temperature)** should be evaluated as countermeasures.
+
 
