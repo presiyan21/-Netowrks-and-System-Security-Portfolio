@@ -17,25 +17,17 @@ The `test_folder` directory includes normal files (e.g. `lecture_notes.txt`, `li
 
 ## ⭐ Main Features
 
-### 🔐 File Integrity Checker 
+- **File Integrity Checker:** Creates SHA-256 hashes for every file in `test_folder` and stores them in `file_baseline.csv`, establishing a reliable baseline for detecting unauthorised file changes.
 
-Generates SHA-256 hashes for all files in `test_folder` and saves them to `file_baseline.csv`, creating a baseline for detecting unauthorised file changes.
+- **Network Traffic Monitor:** Simulates outbound traffic from multiple hosts and flags any activity that exceeds the configured `ANOMALY_THRESHOLD`. All anomalies are recorded in `network_alerts.csv` to demonstrate basic network-level threat detection.
 
-### 🌐 Network Traffic Monitor 
+- **Static Signature Scanner:** Scans files for suspicious patterns such as `eval()`, `exec()`, `socket.connect`, or `base64.b64decode`, reporting any files that contain potentially harmful code signatures.
 
-Simulates outbound requests from hosts and flags any that exceed the defined `ANOMALY_THRESHOLD`. Alerts are recorded in `network_alerts.csv` to demonstrate anomaly detection.
+- **Worm Propagation Simulator:** Models a self-replicating worm spreading across hosts and shows how infection counts grow over multiple rounds to illustrate rapid malware propagation.
 
-### 🧬 Static Signature Scanner 
+- **File Change Detection:** Compares current file hashes against the saved baseline in `file_baseline.csv` to identify modified, deleted, or newly created files, providing a clear report of any changes.
+```
 
-Scans files for suspicious patterns such as `eval()`, `exec()`, `socket.connect`, and `base64.b64decode`, reporting any files that contain potential malicious signatures.
-
-### 🪱 Worm Propagation Simulator 
-
-Models a self-replicating worm spreading across hosts, showing how infection counts grow each round to illustrate rapid malware propagation.
-
-###  📝 File Change Detection 
-
-Compares current file hashes to the saved baseline in file_baseline.csv to identify modified, deleted, or newly created files, providing report of changes.
 
 ---
 
