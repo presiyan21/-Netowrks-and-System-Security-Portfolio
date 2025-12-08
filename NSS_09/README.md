@@ -45,3 +45,5 @@ pytest tests/
 ## 🧩 System Architecture
 
 <img width="637" height="1092" alt="Screenshot 2025-12-08 173358" src="https://github.com/user-attachments/assets/10ec024f-5003-4bbb-b221-ca3bc14a6801" />
+
+## 🧪 Lab Report
