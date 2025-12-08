@@ -70,7 +70,7 @@ python -m app.tests_unit
 
 ![alt text](<Screenshot 2025-11-20 232559.png>)
 
-## Lab Report
+## 🧪 Lab Report
 
 ## Password Strength Analysis
 
