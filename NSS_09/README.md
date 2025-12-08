@@ -110,16 +110,16 @@ def sanitize_input(text: str) -> str:
 
 ---
 
-## Analysis & trade-offs
+## Reflections, trade-offs & limitations
 
-### **Strengths**
-- **Clear separation of concerns:** client, experiments, reporting. This makes the codebase maintainable and testable (**Pytest present**).  
-- **Deterministic `simulate` mode** accelerates reproducible lab marking.  
-- **Automated report generation** (Markdown + HTML) is fit for e-portfolio evidence.
+* **Sanitiser trade-off:** pattern-based cleaning is fast and explainable but brittle. Adversaries can evade simple regex rules via paraphrase, encoding, or language switches. To improve the depth, natural next step would be **token-based policy enforcement** or **classifier-backed intent detection**.
 
-### **Limitations**
-- The sanitiser is **pattern-based** and can miss obfuscated override attempts (e.g., synonym substitution, encoded payloads).  
-- **In-session poisoning simulation** does not emulate true retraining risks — this is acknowledged in code comments.  
-- **Extraction tests** show deterministic outputs; in a real deployment, **rate-limiting** and response **randomisation (temperature)** should be evaluated as countermeasures.
+* **Simulation vs. reality:** the `simulate` mode is deterministic and excellent for unit tests; it cannot substitute for tests against **real model behaviour** under load or after fine-tuning.
+
+* **False positives / negatives:** `verify_output()` uses string checks for forbidden tokens and will miss **contextual leaks**; conversely it may flag benign text. A **tiered verification pipeline** (lexical checks → classifier → human review) reduces error rates.
+
+* **Operational concerns:** logging and throttling are necessary to detect **extraction patterns**; however, aggressive throttling impacts legitimate **developer workflows** and CI testing.
+
+
 
 
