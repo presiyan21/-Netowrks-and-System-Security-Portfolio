@@ -78,10 +78,10 @@ One of the first tools built to ensure user credentials are sufficiently strong.
 
 ```python
 >> strength("password")
-(0, ['This password appears in breach lists.', 'Use both upper and lowercase letters.', 'Add numbers.', 'Add symbols for extra entropy.'])
+(0, entropy_bits=38, ['This password appears in breach lists.', 'Use both upper and lowercase letters.', 'Add numbers.', 'Add symbols for extra entropy.'])
 
 >> strength("StrongPass123!")
-(6, [])
+(6, entropy_bits=78, [])
 ```
 
 This output indicates the user-chosen "password" scores 0 and triggers feedback (appears in breach lists) prompts like "add uppercase, digits, and symbols". By doing so in contrast, "StrongPass123!" scores 6 on our scale with no visible errors shown.
