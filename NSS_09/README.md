@@ -1,6 +1,6 @@
 # LLM Security Testing Toolkit
 
-This project provides a practical, hands-on look at how large-language-model systems can be evaluated for security risks. It demonstrates real attack vectors—prompt injection, model extraction, poisoning simulations, and more—by running controlled experiments against local LLMs through Ollama. The toolkit generates clean reports so developers can quickly understand model behaviour and potential weaknesses.
+This project aims to explore how large-language-model systems can be implemented to asses security risks. Upon diving, we would explore attacks based on vectors prompt injection, model extraction, poisoning simulations, and plenty of others while running controlled experiments against local LLMs through Ollama. The toolkit has further developed reports tool, therefore making it interactive further implying developers can quickly understand model behaviour and potential weaknesses.
 
 ---
 
@@ -16,7 +16,7 @@ This project provides a practical, hands-on look at how large-language-model sys
 
 ## ⭐ Main Features
 - **Prompt Injection Tests:** Checks whether a model can be coerced into ignoring instructions.  
-- **Poisoning Simulations:** Observes how models react to intentionally misleading input.  
+- **Poisoning Simulations:** Helps us divie into how models react to intentionally misleading input.  
 - **Model Inversion Queries:** Explores whether a model recalls or fabricates sensitive patterns.  
 - **Model Extraction Behaviour:** Evaluates output consistency across repeated prompts.  
 - **Multiple Model Support:** Run experiments on several Ollama models for comparison.  
@@ -42,3 +42,4 @@ python -m src.cli
 ```bash
 pytest tests/
 ```
+
