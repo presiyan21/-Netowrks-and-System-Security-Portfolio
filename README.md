@@ -4,7 +4,6 @@
 </p>
 
 <h1 align="center">🛡️ Network & System Security — Lab Portfolio</h1>
----
 
 ## 📌 Navigation
 
