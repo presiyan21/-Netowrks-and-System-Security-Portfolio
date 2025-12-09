@@ -254,7 +254,7 @@ Processes isolate `pefile`’s internal state.
 
 Deterministic behaviour across large workloads, improved throughput on multi-core systems, and full stability during parallel analysis operations.
 
-# # References
+## References
 
 [1] National Institute of Standards and Technology (2015) *FIPS 180-4: Secure Hash Standard (SHS)*. Available at: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf
 
