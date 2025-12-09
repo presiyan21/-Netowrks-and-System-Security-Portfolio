@@ -61,6 +61,13 @@ My skills to work well in closed and controlled system environments remain one o
 
 ---
 
+## Reflection on Skills Gained, Lab Work, and Feedback Implementation
+My journey and progress during Network & System Security module consisted of transforming theoretical ideas into repeatable practice. Most of my time during labs consisted of making toolkits showcasing core skills employers look for in Cybersecurity roles. Secure authentication, malware analysis, responsible reconnaissance, and early-stage model security experiments. Rather than diving into long descriptions of each lab (those are in my reports), feedback I received praised and highlighted my reproducible, clear folder layouts, automated tests, and reports elevating user experience across my toolkits.
 
+Feedback from the module leader and assistant highlighted 2 core strengths: a consistent report structure and the way I integrated weekly work into single, navigable toolsets. Nevertheless, a potential improvement to further strengthen my portfolio was experimentation depth, hence suggesting trying different approaches, varied inputs, and multiple runs. I acted on that feedback by expanding test suites and adding randomised and multi-scenario inputs to simulations. Further documenting edge cases and failure modes in READMEs.
+
+A combination of these changes made my projects more robust. The professionally documented workflow and results, therefore can be crucial and a difference maker for the graduate roles I researched in data, cloud and cyber security. In short: the module helped me move from “proof-of-concept” to “reproducible engineering”, and I’ve shown significant progress on the specific feedback given. The next steps are deeper cloud deployment practice and work towards professional certifications (CompTIA Security+, PenTest+, Cisco CCNA and more), further strengthening my knowledge and helping me position myself more competitively for career opportunities while aligning with the graduate programmes I’m targeting.
+
+---
 
 
