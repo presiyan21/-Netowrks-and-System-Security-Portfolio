@@ -1,8 +1,3 @@
-<!-- CUSTOM BANNER -->
-<p align="center">
-  <img width="900" src="https://svg-banners.vercel.app/api?type=origin&text1=Presiyan%20Draganov%20%7C%20Network%20%26%20System%20Security&text2=Lab%20Portfolio&width=900&height=260" />
-</p>
-
 <h1 align="center">🛡️ Network & System Security Portfolio</h1>
 
 ## 📌 Navigation
