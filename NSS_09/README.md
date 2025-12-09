@@ -59,29 +59,29 @@ pytest tests/
 ## Key findings
 
 ### **Prompt injection**
-* **Approach:** feed override instructions like “Ignore all previous instructions…”.  
-* **Outcome:** sanitiser consistently replaced override patterns with **[REDACTED-INSTRUCTION]** and the model responses reflected the sanitized content rather than executing the override. `verify_output()` returned **True** for recorded responses.  
-* **Interpretation:** the basic pattern-matching sanitizer reduced obvious injection success in-session; however, **pattern-based sanitisation is brittle** against creative phrasing and multilingual variants.
+* **Approach:** feed override instructions like “Ignore all previous instructions…” [2][3].  
+* **Outcome:** sanitiser consistently replaced override patterns with **[REDACTED-INSTRUCTION]** and the model responses reflected the sanitized content rather than executing the override. `verify_output()` returned **True** for recorded responses [2].   
+* **Interpretation:** the basic pattern-matching sanitizer reduced obvious injection success in-session; however, **pattern-based sanitisation is brittle** against creative phrasing and multilingual variants [3].
 
 ---
 
 ### **Poisoning simulation**
-* **Approach:** baseline query → feed declarative poison statements → post-poison test.  
+* **Approach:** baseline query → feed declarative poison statements → post-poison test [5].  
 * **Outcome:** model returned correct baseline and explicit rejection of the false claim (“Moon is rocky”). Session-echo simulation showed one simulated echo but the aggregate flag `appears_poisoned` remained **false**.  
-* **Interpretation:** without retraining, **session-level poisoning is limited**. Simulations are useful for measuring conversational drift, but they do not replace controlled dataset-poisoning experiments that require **retraining or fine-tuning**.
+* **Interpretation:** without retraining, **session-level poisoning is limited** [5]. Simulations are useful for measuring conversational drift, but they do not replace controlled dataset-poisoning experiments that require **retraining or fine-tuning**.
 
 ---
 
 ### **Model inversion**
-* **Approach:** ask for personal data or reconstructed profiles.  
-* **Outcome:** model correctly answered it lacks access to training data in baseline responses, but some **simulated echoes** suggest risk where the model could hallucinate realistic-looking identities. `privacy_risk` flagged **true**.  
+* **Approach:** ask for personal data or reconstructed profiles [6][7].  
+* **Outcome:** model correctly answered it lacks access to training data in baseline responses, but some **simulated echoes** suggest risk where the model could hallucinate realistic-looking identities. `privacy_risk` flagged **true** [6][7].  
 * **Interpretation:** inversion tests exposed possible **privacy leakage patterns** (hallucination of plausible identities). This is a higher-risk area and requires stricter controls and monitoring.
 
 ---
 
 ### **Model extraction**
 * **Approach:** repeated structured prompts (3 repeats).  
-* **Outcome:** highly consistent answers for high-level conceptual prompts, indicating **low output diversity** for those prompts (`unique_responses == 1`).  
+* **Outcome:** highly consistent answers for high-level conceptual prompts, indicating **low output diversity** for those prompts (`unique_responses == 1`) [4][7].  
 * **Interpretation:** consistent outputs are useful for stability but may facilitate **extraction attacks** where an attacker repeatedly queries to reconstruct behaviour or underlying response templates.
 
 ---
@@ -112,43 +112,28 @@ def sanitize_input(text: str) -> str:
 
 ## Reflections, trade-offs & limitations
 
-* **Sanitiser trade-off:** pattern-based cleaning is fast and explainable but brittle. Adversaries can evade simple regex rules via paraphrase, encoding, or language switches. To improve the depth, natural next step would be **token-based policy enforcement** or **classifier-backed intent detection**.
+* **Sanitiser trade-off:** pattern-based cleaning is fast and explainable but brittle. Adversaries can evade simple regex rules via paraphrase, encoding, or language switches. To improve the depth, natural next step would be **token-based policy enforcement** or **classifier-backed intent detection** [3].
 
 * **Simulation vs. reality:** the `simulate` mode is deterministic and excellent for unit tests; it cannot substitute for tests against **real model behaviour** under load or after fine-tuning.
 
 * **False positives / negatives:** `verify_output()` uses string checks for forbidden tokens and will miss **contextual leaks**; conversely it may flag benign text. A **tiered verification pipeline** (lexical checks → classifier → human review) reduces error rates.
 
-* **Operational concerns:** logging and throttling are necessary to detect **extraction patterns**; however, aggressive throttling impacts legitimate **developer workflows** and CI testing.
+* **Operational concerns:** logging and throttling are necessary to detect **extraction patterns**; however, aggressive throttling impacts legitimate **developer workflows** and CI testing [8].
 
 ## References
 
-Chen, S., Piet, J., Sitawarin, C. and Wagner, D. (2024) 'StruQ: Defending Against Prompt Injection with Structured Queries', *arXiv preprint arXiv:2402.06363*. Available at: [https://arxiv.org/pdf/2402.06363](https://arxiv.org/pdf/2402.06363).
+[1] Ollama (no date) *Get up and running with large language models*. Available at: https://ollama.com/
 
-Carlini, N., Tramer, F., Wallace, E., Jagielski, M., Herbert‑Voss, A., Lee, K., Roberts, A., Brown, T., Song, D., Erlingsson, U., Oprea, A. and Raffel, C. (2021) 'Extracting Training Data from Large Language Models', *Proceedings of the 30th USENIX Security Symposium*. Available at: [https://www.usenix.org/conference/usenixsecurity21/presentation/carlini-extracting](https://www.usenix.org/conference/usenixsecurity21/presentation/carlini-extracting).
+[2] OWASP Foundation (no date) *LLM Prompt Injection Prevention Cheat Sheet*. Available at: https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html
 
-Tramèr, F., Zhang, F., Juels, A., Reiter, M.K. and Ristenpart, T. (2016) 'Stealing Machine Learning Models via Prediction APIs', *arXiv preprint arXiv:1609.02943 / USENIX*. Available at: [https://www.usenix.org/system/files/conference/usenixsecurity16/sec16_paper_tramer.pdf](https://www.usenix.org/system/files/conference/usenixsecurity16/sec16_paper_tramer.pdf).
+[3] Liu, Y., Jia, Y., Geng, R., Jia, J., Gong, N. Z. (2023) *Formalizing and Benchmarking Prompt Injection Attacks and Defenses*. arXiv. Available at: https://arxiv.org/abs/2310.12815
 
-Fredrikson, M., Jha, S. and Ristenpart, T. (2015) 'Model Inversion Attacks that Exploit Confidence Information', *Proceedings of the 22nd ACM SIGSAC Conference on Computer and Communications Security*. Available at: [https://dl.acm.org/doi/10.1145/2810103.2813677](https://dl.acm.org/doi/10.1145/2810103.2813677).
+[4] Tramèr, F., Zhang, F., Juels, A., Reiter, M. K., Ristenpart, T. (2016) *Stealing Machine Learning Models via Prediction APIs*. USENIX / arXiv. Available at: https://www.usenix.org/system/files/conference/usenixsecurity16/sec16_paper_tramer.pdf
 
-Shokri, R., Stronati, M., Song, C. and Shmatikov, V. (2017) 'Membership Inference Attacks against Machine Learning Models', *arXiv preprint arXiv:1610.05820*. Available at: [https://arxiv.org/abs/1610.05820](https://arxiv.org/abs/1610.05820).
+[5] (Survey) (2025) *Data Poisoning in Deep Learning: A Survey*. arXiv. Available at: https://arxiv.org/html/2503.22759v1
 
-Zhao, P., Zhu, W., Jiao, P., Gao, D. and Wu, O. (2025) 'Data Poisoning in Deep Learning: A Survey', *arXiv preprint arXiv:2503.22759*. Available at: [https://arxiv.org/html/2503.22759v1](https://arxiv.org/html/2503.22759v1).
+[6] Fredrikson, M., Jha, S., Ristenpart, T. (2015) *Model Inversion Attacks that Exploit Confidence Information and Basic Countermeasures*. Available at: https://rist.tech.cornell.edu/papers/mi-ccs.pdf
 
-OWASP (n.d.) 'LLM Prompt Injection Prevention Cheat Sheet'. Available at: [https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html).
+[7] Carlini, N., Tramer, F., Wallace, E., Jagielski, M., Herbert-Voss, A., Lee, K., Roberts, A., Brown, T., Song, D., Erlingsson, U., Oprea, A., Raffel, C. (2020/2021) *Extracting Training Data from Large Language Models*. arXiv / USENIX. Available at: https://www.usenix.org/system/files/sec21-carlini-extracting.pdf
 
-Chen, Y., et al. (2025) 'Defense Against Prompt Injection Attack by Leveraging ...', *ACL 2025*. Available at: [https://aclanthology.org/2025.acl-long.897.pdf](https://aclanthology.org/2025.acl-long.897.pdf).
-
-Ollama (2025) 'Ollama documentation'. Available at: [https://docs.ollama.com/](https://docs.ollama.com/).
-
-Jinja (Pallets Projects) (n.d.) 'Jinja — Documentation'. Available at: [https://jinja.palletsprojects.com/](https://jinja.palletsprojects.com/).
-
-markdown2 (n.d.) 'markdown2'. Available at: [https://pypi.org/project/markdown2/](https://pypi.org/project/markdown2/).
-
-pytest (n.d.) 'pytest documentation'. Available at: [https://docs.pytest.org/](https://docs.pytest.org/).
-
-Python Software Foundation (n.d.) 're — Regular expression operations'. Available at: [https://docs.python.org/3/library/re.html](https://docs.python.org/3/library/re.html).
-
-
-
-
-
+[8] Snyk (2025) *AI Model Theft: Understanding the Threat Landscape*. Available at: https://snyk.io/articles/ai-model-theft/
