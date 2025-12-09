@@ -120,6 +120,34 @@ def sanitize_input(text: str) -> str:
 
 * **Operational concerns:** logging and throttling are necessary to detect **extraction patterns**; however, aggressive throttling impacts legitimate **developer workflows** and CI testing.
 
+## References
+
+Chen, S., Piet, J., Sitawarin, C. and Wagner, D. (2024) 'StruQ: Defending Against Prompt Injection with Structured Queries', *arXiv preprint arXiv:2402.06363*. Available at: [https://arxiv.org/pdf/2402.06363](https://arxiv.org/pdf/2402.06363).
+
+Carlini, N., Tramer, F., Wallace, E., Jagielski, M., Herbert‑Voss, A., Lee, K., Roberts, A., Brown, T., Song, D., Erlingsson, U., Oprea, A. and Raffel, C. (2021) 'Extracting Training Data from Large Language Models', *Proceedings of the 30th USENIX Security Symposium*. Available at: [https://www.usenix.org/conference/usenixsecurity21/presentation/carlini-extracting](https://www.usenix.org/conference/usenixsecurity21/presentation/carlini-extracting).
+
+Tramèr, F., Zhang, F., Juels, A., Reiter, M.K. and Ristenpart, T. (2016) 'Stealing Machine Learning Models via Prediction APIs', *arXiv preprint arXiv:1609.02943 / USENIX*. Available at: [https://www.usenix.org/system/files/conference/usenixsecurity16/sec16_paper_tramer.pdf](https://www.usenix.org/system/files/conference/usenixsecurity16/sec16_paper_tramer.pdf).
+
+Fredrikson, M., Jha, S. and Ristenpart, T. (2015) 'Model Inversion Attacks that Exploit Confidence Information', *Proceedings of the 22nd ACM SIGSAC Conference on Computer and Communications Security*. Available at: [https://dl.acm.org/doi/10.1145/2810103.2813677](https://dl.acm.org/doi/10.1145/2810103.2813677).
+
+Shokri, R., Stronati, M., Song, C. and Shmatikov, V. (2017) 'Membership Inference Attacks against Machine Learning Models', *arXiv preprint arXiv:1610.05820*. Available at: [https://arxiv.org/abs/1610.05820](https://arxiv.org/abs/1610.05820).
+
+Zhao, P., Zhu, W., Jiao, P., Gao, D. and Wu, O. (2025) 'Data Poisoning in Deep Learning: A Survey', *arXiv preprint arXiv:2503.22759*. Available at: [https://arxiv.org/html/2503.22759v1](https://arxiv.org/html/2503.22759v1).
+
+OWASP (n.d.) 'LLM Prompt Injection Prevention Cheat Sheet'. Available at: [https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html).
+
+Chen, Y., et al. (2025) 'Defense Against Prompt Injection Attack by Leveraging ...', *ACL 2025*. Available at: [https://aclanthology.org/2025.acl-long.897.pdf](https://aclanthology.org/2025.acl-long.897.pdf).
+
+Ollama (2025) 'Ollama documentation'. Available at: [https://docs.ollama.com/](https://docs.ollama.com/).
+
+Jinja (Pallets Projects) (n.d.) 'Jinja — Documentation'. Available at: [https://jinja.palletsprojects.com/](https://jinja.palletsprojects.com/).
+
+markdown2 (n.d.) 'markdown2'. Available at: [https://pypi.org/project/markdown2/](https://pypi.org/project/markdown2/).
+
+pytest (n.d.) 'pytest documentation'. Available at: [https://docs.pytest.org/](https://docs.pytest.org/).
+
+Python Software Foundation (n.d.) 're — Regular expression operations'. Available at: [https://docs.python.org/3/library/re.html](https://docs.python.org/3/library/re.html).
+
 
 
 
