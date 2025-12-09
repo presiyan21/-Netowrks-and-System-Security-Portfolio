@@ -29,7 +29,7 @@ Each lab is structured as a standalone project (code, tests, sample inputs, and 
 
 | Week | Title  | Summary | Key Tech |
 |------|--------|----------|----------|
-| **3** | Secure Authentication Workshop | Layered authentication system with strength checks, salted hashing, TOTP 2FA. | Python, bcrypt/PBKDF2, pyotp |
+| **3** | Secure Authentication | Layered authentication system with strength checks, salted hashing, TOTP 2FA. | Python, bcrypt/PBKDF2, pyotp |
 | **4&5** | Malicious Software Analysis | File integrity checks, anomaly detection, signature scanning, worm propagation. | Python, SHA-256, regex |
 | **6** | Malware Analysis Toolkit | Static PE analysis, IOC extraction, YARA rules. | pefile, yara-python |
 | **7** | Penetration Testing Toolkit | Reconnaissance, HTTP enumeration, threaded port scanning, Nmap integration. | requests, socket, python-nmap |
