@@ -112,7 +112,7 @@ dk = hashlib.pbkdf2_hmac('sha256', password, salt, 200000)
 hash = f"pbkdf2$200000${salt.hex()}${dk.hex()}"
 ```
 
-The salt is stored alongside the hash. Subsequently helps to defeat rainbow tables by requiring unique hashes per password. OWASP puts an emphasis on the fact that each unique salt forces an attacker to crack each hash separately, significantly reducing bulk cracking efficiency. Modern functions (Argon2, bcrypt, PBKDF2) do this automatically.
+The salt is stored alongside the hash. Subsequently helps to defeat rainbow tables by requiring unique hashes per password. OWASP puts an emphasis on the fact that each unique salt forces an attacker to crack each hash separately, significantly reducing bulk cracking efficiency. Modern functions (Argon2, bcrypt, PBKDF2) do this automatically [2].
 
 We also introduced a static pepper (`AUTH_PEPPER` from the environment). A pepper is a secret global key added to every password before hashing. It is not stored in the database. In terms of code, the implementation is:
 
@@ -120,7 +120,7 @@ We also introduced a static pepper (`AUTH_PEPPER` from the environment). A peppe
 hash_password(password + PEPPER)
 ```
 
-Further simplified, if the hash DB is stolen, an attacker not possessing the pepper lacks resources to validate guesses. OWASP suggests pepper must be kept separate from the database (e.g. in an HSM or config). In practice, handling a pepper requires careful management: if the pepper is changed, it results in all existing hashes becoming invalid (a well-known limitation). Also, our pepper was optional (os.getenv default empty), so testing required ensuring a consistent environment.
+Further simplified, if the hash DB is stolen, an attacker not possessing the pepper lacks resources to validate guesses. OWASP suggests pepper must be kept separate from the database (e.g. in an HSM or config) [1]. In practice, handling a pepper requires careful management: if the pepper is changed, it results in all existing hashes becoming invalid (a well-known limitation). Also, our pepper was optional (os.getenv default empty), so testing required ensuring a consistent environment.
 
 * Example: The same password hashed twice with bcrypt produces different outputs (due to salt), e.g.:
 
@@ -153,7 +153,7 @@ If an attacker only gets the DB:
 * Salted hashes: they must brute-force each password individually (much slower).
 * Salt + pepper: they cannot even start without the pepper, essentially stalling the attack unless the pepper itself is compromised.
 
-After accounting for this, I came into realisation of a practical issue: my code concatenates pepper before hashing (pre-hash peppering). OWASP also suggests post-hash HMAC-style peppering as an alternative. Managing the pepper is non-trivial, since changing it invalidates all accounts and forces password resets.
+After accounting for this, I came into realisation of a practical issue: my code concatenates pepper before hashing (pre-hash peppering). OWASP also suggests post-hash HMAC-style peppering as an alternative [1]. Managing the pepper is non-trivial, since changing it invalidates all accounts and forces password resets.
 
 ## Brute-Force Attack Simulation
 
