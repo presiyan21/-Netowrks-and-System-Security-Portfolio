@@ -292,13 +292,13 @@ os.replace(tmp.name, output_csv) [8]
 
 [4] Staniford, S., Paxson, V. and Weaver, N. (2002) *How to 0wn the Internet in Your Spare Time*. USENIX Security Symposium. Available at: https://www.usenix.org/legacy/event/sec02/full_papers/staniford/staniford.pdf
 
-[5] Python Software Foundation (no date) *pathlib — Object-oriented filesystem paths*. Available at: https://docs.python.org/3/library/pathlib.html
+[5] Python Software Foundation *pathlib — Object-oriented filesystem paths*. Available at: https://docs.python.org/3/library/pathlib.html
 
-[6] Python Software Foundation (no date) *importlib.resources — Package resource reading, opening, and metadata access*. Available at: https://docs.python.org/3/library/importlib.resources.html
+[6] Python Software Foundation *importlib.resources — Package resource reading, opening, and metadata access*. Available at: https://docs.python.org/3/library/importlib.resources.html
 
-[7] Python Software Foundation (no date) *tempfile — Generate temporary files and directories*. Available at: https://docs.python.org/3/library/tempfile.html
+[7] Python Software Foundation *tempfile — Generate temporary files and directories*. Available at: https://docs.python.org/3/library/tempfile.html
 
-[8] atomicwrites project (no date) *atomicwrites — safe, atomic file writes for Python*. Available at: https://python-atomicwrites.readthedocs.io/
+[8] atomicwrites project *atomicwrites — safe, atomic file writes for Python*. Available at: https://python-atomicwrites.readthedocs.io/
 
 [9] Cloudmersive (2025) *Why Obfuscation is the First Step in Most Malware Campaigns*. Available at: https://cloudmersive.com/article/Why-Obfuscation-is-the-First-Step-in-Most-Malware-Campaigns
 
