@@ -251,18 +251,18 @@ print(threaded_scan('127.0.0.1', range(1,100)))
 
 ## References
 
-[1] Python Software Foundation (no date) *socket — Low-level networking interface*. Available at: https://docs.python.org/3/library/socket.html
+[1] Python Software Foundation *socket — Low-level networking interface*. Available at: https://docs.python.org/3/library/socket.html
 
-[2] Python Software Foundation (no date) *datetime — Basic date and time types*. Available at: https://docs.python.org/3/library/datetime.html
+[2] Python Software Foundation *datetime — Basic date and time types*. Available at: https://docs.python.org/3/library/datetime.html
 
-[3] OWASP Foundation (no date) *OWASP Testing Guide / Legal and Ethical Testing Considerations*. Available at: https://owasp.org/www-project-web-security-testing-guide/
+[3] OWASP Foundation *OWASP Testing Guide / Legal and Ethical Testing Considerations*. Available at: https://owasp.org/www-project-web-security-testing-guide/
 
-[4] Python-Requests Community (no date) *Requests: HTTP for Humans — Quickstart / API*. Available at: https://docs.python-requests.org/en/latest/
+[4] Python-Requests Community *Requests: HTTP for Humans — Quickstart / API*. Available at: https://docs.python-requests.org/en/latest/
 
-[5] Python Software Foundation (no date) *concurrent.futures — Launching parallel tasks*. Available at: https://docs.python.org/3/library/concurrent.futures.html
+[5] Python Software Foundation *concurrent.futures — Launching parallel tasks*. Available at: https://docs.python.org/3/library/concurrent.futures.html
 
-[6] python-nmap project (no date) *python-nmap — PortScanner for Nmap*. Available at: https://pypi.org/project/python-nmap/
+[6] python-nmap project *python-nmap — PortScanner for Nmap*. Available at: https://pypi.org/project/python-nmap/
 
-[7] Fyodor (no date) *Nmap Reference — Version Detection (-sV)*. Available at: https://nmap.org/book/man-version-detection.html
+[7] Fyodor *Nmap Reference — Version Detection (-sV)*. Available at: https://nmap.org/book/man-version-detection.html
 
-[8] Python Software Foundation (no date) *open() — Built-in function for file I/O*. Available at: https://docs.python.org/3/library/functions.html#open
+[8] Python Software Foundation *open() — Built-in function for file I/O*. Available at: https://docs.python.org/3/library/functions.html#open
