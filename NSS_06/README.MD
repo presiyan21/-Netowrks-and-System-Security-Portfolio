@@ -61,7 +61,7 @@ Earlier presented and illustrated outputs and behaviours are produced by the fil
 
 ### **Hashing (hashing.py)**
 
-Integrated into the system with the purpose of computing **MD5, SHA1, and SHA256.** The code behind it loads the file and computes each digest. The process of reading whole files for smaller files doesn’t induce additional errors; however, many could be observed when working with large files and applications. Therefore, a built-in drop optimisation computes hashes in a single pass without reading the whole file. Allowing us to reduce peak memory, hence preserving the code's robustness for large binaries.
+Integrated into the system with the purpose of computing **MD5, SHA1, and SHA256 .**[1] The code behind it loads the file and computes each digest. The process of reading whole files for smaller files doesn’t induce additional errors; however, many could be observed when working with large files and applications. Therefore, a built-in drop optimisation computes hashes in a single pass without reading the whole file. Allowing us to reduce peak memory, hence preserving the code's robustness for large binaries.
 
 ```python
 h_dict = {algo: hashlib.new(algo) for algo in algorithms} [3]
