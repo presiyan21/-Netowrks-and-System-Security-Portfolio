@@ -279,7 +279,7 @@ print(ok, msg)        # False User exists
 
 This example highlights the general trade-off between entropy and user feedback, showing that even strong passphrases can be flagged as a result of additional security measures, nevertheless being important for practical authentication system design.
 
-## References (Harvard Style)
+## References
 
 [1] OWASP Foundation (no date) *Password Storage Cheat Sheet*. Available at: [https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html).
 
