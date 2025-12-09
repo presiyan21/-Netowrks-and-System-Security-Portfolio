@@ -1,6 +1,7 @@
 <!-- CUSTOM BANNER -->
 <p align="center">
-  <img width="900" src="https://svg-banners.vercel.app/api?type=origin&text1=Presiyan%20Draganov%20%7C%20Network%20%26%20System%20Security&text2=Lab%20Portfolio&width=900&height=260" />
+  <img width="900" src="<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/f3c1cdee-d10d-4db2-a569-ba0c0bfac4d4" />
+" />
 </p>
 
 <h1 align="center">🛡️ Network & System Security — Lab Portfolio</h1>
