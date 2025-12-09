@@ -281,15 +281,15 @@ This example highlights the general trade-off between entropy and user feedback,
 
 ## References
 
-[1] OWASP Foundation (no date) *Password Storage Cheat Sheet*. Available at: [https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html).
+[1] OWASP Foundation *Password Storage Cheat Sheet*. Available at: [https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html).
 
 [2] Kaliski, B. (2000) *PKCS #5: Password-Based Cryptography Specification v2.0 (RFC 2898)*. Available at: [https://www.ietf.org/rfc/rfc2898.txt](https://www.ietf.org/rfc/rfc2898.txt).
 
 [3] M'Raihi, D., Machani, S., Pei, M. and Rydell, J. (2011) *RFC 6238: TOTP: Time-Based One-Time Password Algorithm*. Available at: [https://datatracker.ietf.org/doc/html/rfc6238](https://datatracker.ietf.org/doc/html/rfc6238).
 
-[4] jpf (no date) *pyotp: Python One-Time Password Library* (GitHub). Available at: [https://github.com/jpf/pyotp](https://github.com/jpf/pyotp).
+[4] jpf *pyotp: Python One-Time Password Library* (GitHub). Available at: [https://github.com/jpf/pyotp](https://github.com/jpf/pyotp).
 
-[5] Auth0 (no date) *Hashing in Action: Understanding bcrypt*. Available at: [https://auth0.com/blog/hashing-in-action-understanding-bcrypt/](https://auth0.com/blog/hashing-in-action-understanding-bcrypt/).
+[5] Auth0 *Hashing in Action: Understanding bcrypt*. Available at: [https://auth0.com/blog/hashing-in-action-understanding-bcrypt/](https://auth0.com/blog/hashing-in-action-understanding-bcrypt/).
 
 [6] National Institute of Standards and Technology (2017) *NIST Special Publication 800-63B: Digital Identity Guidelines — Authentication and Lifecycle*. Available at: [https://nvlpubs.nist.gov/nistpubs/specialpublications/nist.sp.800-63b.pdf](https://nvlpubs.nist.gov/nistpubs/specialpublications/nist.sp.800-63b.pdf).
 
