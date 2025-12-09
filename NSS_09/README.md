@@ -122,9 +122,9 @@ def sanitize_input(text: str) -> str:
 
 ## References
 
-[1] Ollama (no date) *Get up and running with large language models*. Available at: https://ollama.com/
+[1] Ollama *Get up and running with large language models*. Available at: https://ollama.com/
 
-[2] OWASP Foundation (no date) *LLM Prompt Injection Prevention Cheat Sheet*. Available at: https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html
+[2] OWASP Foundation *LLM Prompt Injection Prevention Cheat Sheet*. Available at: https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html
 
 [3] Liu, Y., Jia, Y., Geng, R., Jia, J., Gong, N. Z. (2023) *Formalizing and Benchmarking Prompt Injection Attacks and Defenses*. arXiv. Available at: https://arxiv.org/abs/2310.12815
 
@@ -137,3 +137,4 @@ def sanitize_input(text: str) -> str:
 [7] Carlini, N., Tramer, F., Wallace, E., Jagielski, M., Herbert-Voss, A., Lee, K., Roberts, A., Brown, T., Song, D., Erlingsson, U., Oprea, A., Raffel, C. (2020/2021) *Extracting Training Data from Large Language Models*. arXiv / USENIX. Available at: https://www.usenix.org/system/files/sec21-carlini-extracting.pdf
 
 [8] Snyk (2025) *AI Model Theft: Understanding the Threat Landscape*. Available at: https://snyk.io/articles/ai-model-theft/
+
