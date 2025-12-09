@@ -26,8 +26,6 @@ The `test_folder` directory includes normal files (e.g. `lecture_notes.txt`, `li
 - **Worm Propagation Simulator:** Models a self-replicating worm spreading across hosts and shows how infection counts grow over multiple rounds to illustrate rapid malware propagation.
 
 - **File Change Detection:** Compares current file hashes against the saved baseline in `file_baseline.csv` to identify modified, deleted, or newly created files, providing a clear report of any changes.
-```
-
 
 ---
 
