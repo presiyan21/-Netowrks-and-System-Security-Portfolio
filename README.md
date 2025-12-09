@@ -114,7 +114,7 @@ Each lab is structured as a standalone project (code, tests, sample inputs, and 
 
 1. Pick a weekly folder.  
 2. Open that week’s `README.md` — it contains exact run commands, required packages, and sample inputs.  
-3. Many folders include an automated test suite (run `pytest` where present) and small CLI demos for manual verification.  
+3. Many folders include an automated test suite and small CLI demos for manual verification.  
 4. Sample data and `samples/` or `test_folder/` are included so you can reproduce results without external dependencies.
 
 ---
