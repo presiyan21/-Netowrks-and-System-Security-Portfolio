@@ -19,11 +19,11 @@
 
 - [🏠 Overview](#-network--system-security--lab-portfolio)
 - [📁 Weekly Labs](#-weekly-labs)
-  - [🔐 Week 3 — Secure Authentication](#week-3--secure-authentication)
-  - [🦠 Week 4 — Malicious Software Analysis](#week-4--malicious-software-analysis)
-  - [🧬 Week 6 — Malware Analysis Toolkit](#week-6--malware-analysis-toolkit)
-  - [🕵️‍♂️ Week 7 — Penetration Testing Toolkit](#week-7--penetration-testing-toolkit)
-  - [🤖 Week 9 — LLM Security Testing Toolkit](#week-9--llm-security-testing-toolkit)
+  - [🔐 Week 3  Secure Authentication](#week-3--secure-authentication)
+  - [🦠 Week 4&5  Malicious Software Analysis](#week-4--malicious-software-analysis)
+  - [🧬 Week 6  Malware Analysis Toolkit](#week-6--malware-analysis-toolkit)
+  - [🕵️‍♂️ Week 7  Penetration Testing Toolkit](#week-7--penetration-testing-toolkit)
+  - [🤖 Week 9  LLM Security Testing Toolkit](#week-9--llm-security-testing-toolkit)
 - [▶️ How to Review / Run](#%EF%B8%8F-how-to-review--run)
 - [🧩 Design Notes](#-design-notes-what-i-focused-on)
 
@@ -135,14 +135,10 @@ Each lab is structured as a standalone project (code, tests, sample inputs, and 
 
 ---
 
-## 🧩 Design Notes *(What I Focused On)*
+## 🧩 Design Notes 
 
 - **Reproducibility:** consistent README + sample inputs + tests so experiments are repeatable.  
 - **Modularity:** each toolkit is built so components can be extended or reused.  
 - **Reporting:** every lab includes a written report and, where useful, automated report generation (Markdown/HTML).
 
 ---
-
-<p align="center">
-  <sub>✔️ Clean design • ✔️ Fast navigation • ✔️ Professional structure</sub>
-</p>
