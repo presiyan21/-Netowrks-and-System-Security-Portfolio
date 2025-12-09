@@ -54,7 +54,7 @@ Results are written to `report.txt` and include:
 
 ## 🧩 System Architecture
 
-![alt text](<Screenshot 2025-11-20 160608.png>)
+![alt text](<Screenshot 2025-11-20 160643.png>)
 
 ## 🧪 Lab Report
 
