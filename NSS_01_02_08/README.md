@@ -30,7 +30,7 @@ My interest in defensive security and my Networks & System Security syllabus ove
 
 # 3. Skills Gap Analysis
 
-Required Skill / Qualification | I Have This Skill? | Evidence (from CV / modules) | How to Develop
+Required Skill / Qualification | I Have This Skill? | Evidence | How to Develop
 ---|---|---|---
 Python programming | Yes | Used in robotics pipelines, chatbot, teaching internship | Continue building ML and automation projects
 Java / software engineering | Yes | Built learning resources; uni modules | Build backend security tools or APIs
@@ -44,7 +44,7 @@ Problem solving | Yes | Robotics optimisation (+15% efficiency), algorithms teac
 Communication & teamwork | Yes | Teaching internship; robotics cross-team collaboration | Continue group projects; seek opportunities to present findings
 SQL | Yes | Taught SQL; used in several uni projects | Complete advanced SQL/analytics course
 Data storytelling / presenting insights | Developing | Teaching internship; project documentation | Present more visual dashboards (Tableau, Power BI)
-Cyber security awareness | Developing | Certifications listed on CV | Build security projects (e.g., log analysis, vulnerability scanning)
+Cyber security awareness | Developing | Few Certifications obtained | Build security projects (e.g., log analysis, vulnerability scanning)
 Analytical thinking | Yes | Robotics sensor analysis, AI modelling | Continue algorithmic problem-solving challenges
 Willingness to learn / adaptability | Yes | Experience working across robotics, education, security admin | Build cross-disciplinary personal projects
 Coding confidence | Yes | Python, Java, JS, GCP projects | Deepen code-review and clean-code practice
