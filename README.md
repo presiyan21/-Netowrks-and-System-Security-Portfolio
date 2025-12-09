@@ -1,7 +1,7 @@
 <!-- CUSTOM BANNER -->
 <p align="center">
-  <img width="900" src="<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/f3c1cdee-d10d-4db2-a569-ba0c0bfac4d4" />
-" />
+  <img width="900" src="<img width="1536" height="1024" alt="portfolio" src="https://github.com/user-attachments/assets/ef14c043-0386-4d9d-8a95-c9d257313ceb" />
+
 </p>
 
 <h1 align="center">🛡️ Network & System Security — Lab Portfolio</h1>
@@ -22,7 +22,8 @@
 - [📁 Weekly Labs](#-weekly-labs)
   - [🔐 Week 3 — Secure Authentication](#week-3--secure-authentication)
   - [🦠 Week 4 — Malicious Software Analysis](#week-4--malicious-software-analysis)
-  - [🧬 Week 6 — Malware Analysis Toolkit](#week-6--malware-analysis-toolkit)
+  - [🧬 Wee<img width="1536" height="1024" alt="portfolio" src="https://github.com/user-attachments/assets/5bae4139-da86-4e3e-a1c8-6d7726ed780b" />
+k 6 — Malware Analysis Toolkit](#week-6--malware-analysis-toolkit)
   - [🕵️‍♂️ Week 7 — Penetration Testing Toolkit](#week-7--penetration-testing-toolkit)
   - [🤖 Week 9 — LLM Security Testing Toolkit](#week-9--llm-security-testing-toolkit)
 - [▶️ How to Review / Run](#%EF%B8%8F-how-to-review--run)
@@ -148,3 +149,4 @@ Each lab is structured as a standalone project (code, tests, sample inputs, and 
   <sub>✔️ Clean design • ✔️ Fast navigation • ✔️ Professional structure</sub>
 </p>
 
+<img width="1536" height="1024" alt="portfolio" src="https://github.com/user-attachments/assets/ef14c043-0386-4d9d-8a95-c9d257313ceb" />
