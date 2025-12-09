@@ -30,7 +30,7 @@ My interest in defensive security and my Networks & System Security syllabus ove
 
 # 3. Skills Gap Analysis
 
-Required Skill / Qualification | I Have This Skill? | Evidence (from CV / modules) | How to Develop (If Missing)
+Required Skill / Qualification | I Have This Skill? | Evidence (from CV / modules) | How to Develop
 ---|---|---|---
 Python programming | Yes | Used in robotics pipelines, chatbot, teaching internship | Continue building ML and automation projects
 Java / software engineering | Yes | Built learning resources; uni modules | Build backend security tools or APIs
