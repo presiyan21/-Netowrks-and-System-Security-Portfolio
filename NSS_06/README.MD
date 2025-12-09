@@ -64,7 +64,7 @@ Earlier presented and illustrated outputs and behaviours are produced by the fil
 Integrated into the system with the purpose of computing **MD5, SHA1, and SHA256.** The code behind it loads the file and computes each digest. The process of reading whole files for smaller files doesn’t induce additional errors; however, many could be observed when working with large files and applications. Therefore, a built-in drop optimisation computes hashes in a single pass without reading the whole file. Allowing us to reduce peak memory, hence preserving the code's robustness for large binaries.
 
 ```python
-h_dict = {algo: hashlib.new(algo) for algo in algorithms}
+h_dict = {algo: hashlib.new(algo) for algo in algorithms} [3]
 with open(file_path, 'rb') as f:
     for block in iter(lambda: f.read(8192), b''):
         for h in h_dict.values():
@@ -78,7 +78,7 @@ hashes = {a: h.hexdigest() for a,h in h_dict.items()}
  SHA1: ed6ceed3ee85acb90e54e15211…
  SHA256: 6b2e2eabe78c2c0ac78397f4b…
 ```
-**Why this matters:** *hashes are canonical IOCs used for sharing and quick reputation checks.*
+**Why this matters:** *hashes are canonical IOCs used for sharing and quick reputation checks [2].*
 
 ---
 
@@ -87,12 +87,12 @@ hashes = {a: h.hexdigest() for a,h in h_dict.items()}
 **What it does:** finds printable ASCII sequences using:
 
 ```python
-pattern = rb"[ -~]{%d,}" % min_length
+pattern = rb"[ -~]{%d,}" % min_length [4]
 raw_strings = re.findall(pattern, data)
-return [s.decode(errors='ignore') for s in raw_strings]
+return [s.decode(errors='ignore') for s in raw_strings] [6]
 ```
 
-This precisely mirrors strings utilities (ASCII range 0x20–0x7E).
+This precisely mirrors strings utilities (ASCII range 0x20–0x7E) [4].
 
 **Top strings from the run:**
 
@@ -113,7 +113,7 @@ The purpose of `errors='ignore' is to prevent crashes; however, it may result in
 **What it does:** uses `pefile` to report entry point, image base, and imports. Key lines:
 
 ```python
-entry_point = hex(pe.OPTIONAL_HEADER.AddressOfEntryPoint)
+entry_point = hex(pe.OPTIONAL_HEADER.AddressOfEntryPoint) [5]
 image_base  = hex(pe.OPTIONAL_HEADER.ImageBase)
 for entry in pe.DIRECTORY_ENTRY_IMPORT:
     dll_name = entry.dll.decode()
@@ -132,7 +132,7 @@ for entry in pe.DIRECTORY_ENTRY_IMPORT:
 
 Malware triage facilitates the preview of suspicious imports (e.g.,**VirtualAllocEx**,**CreateRemoteThread**, **GetProcAddress**), some of which could be considered as indicators of code injection or dynamic resolution. `ShutdownBlockReasonCreate` and various ADVAPI functions were observed during experimentation, **not necessarily associated with malicious software**, which highlights that the correlation between suspicious scripts and malware doesn’t always apply.
 
-To further account for various files `Pefile.PE()` can raise `pefile.PEFormatError` for corrupt/non-PE files.
+To further account for various files `Pefile.PE()` can raise `pefile.PEFormatError` for corrupt/non-PE files [5].
 
 ---
 
@@ -141,7 +141,7 @@ To further account for various files `Pefile.PE()` can raise `pefile.PEFormatErr
 **What it does:** extracts URLs and IPv4 tokens:
 
 ```python
-urls = re.findall(r'https?://[^\s"'<>]+', data)
+urls = re.findall(r'https?://[^\s"'<>]+', data) [8]
 ips  = re.findall(r'\b\d{1,3}(?:\.\d{1,3}){3}\b', data)
 ```
 
@@ -167,7 +167,7 @@ ips = re.findall(r'\b(?:25[0-5]|2[0-4]\d|1?\d{1,2})(?:\.(?:25[0-5]|2[0-4]\d|1?\d
 **What it does:** compiles a YARA rule and matches it on disc:
 
 ```python
-rules = yara.compile(source=rule_source)
+rules = yara.compile(source=rule_source) [7]
 return rules.match(file_path)
 ```
 
@@ -198,9 +198,9 @@ Use a try/except wrapper so invalid files are skipped cleanly:
 
 ```python
 try:
-    pe = pefile.PE(file_path)
+    pe = pefile.PE(file_path) [5]
 except pefile.PEFormatError:
-    return None
+    return None 
 ```
 
 **Effect:**
@@ -246,10 +246,31 @@ Initial attempts to parallelise PE inspection using threads caused race conditio
 Switch from threads to process-based parallelism:
 
 * `concurrent.futures.ProcessPoolExecutor`, or
-* dedicated subprocesses for PE inspection.
+* dedicated subprocesses for PE inspection. [9]
 
 Processes isolate `pefile`’s internal state.
 
 **Effect:**
 
 Deterministic behaviour across large workloads, improved throughput on multi-core systems, and full stability during parallel analysis operations.
+
+# # References
+
+[1] National Institute of Standards and Technology (2015) *FIPS 180-4: Secure Hash Standard (SHS)*. Available at: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf
+
+[2] VirusTotal (2024) *VirusTotal Intelligence — searching by file hash and metadata*. Available at: https://docs.virustotal.com/docs/virustotal-intelligence-introduction
+
+[3] Python Software Foundation *hashlib — Secure hashes and message digests*. Available at: https://docs.python.org/3/library/hashlib.html
+
+[4] Linux manual pages  *strings(1) — print printable character sequences in files*. Available at: https://man7.org/linux/man-pages/man1/strings.1.html
+
+[5] Ero Carrera (pefile project) *pefile — Portable Executable (PE) reader for Python*. Available at: https://pefile.readthedocs.io/en/latest/modules/pefile.html
+
+[6] Python Software Foundation *codecs — Codec registry and base classes*. Available at: https://docs.python.org/3/library/codecs.html
+
+[7] Victor Alvarez et al. (YARA project) *YARA documentation — Using YARA from Python (yara-python)*. Available at: https://yara.readthedocs.io/en/stable/yarapython.html
+
+[8] Jan Goyvaerts *How to find or validate an IP address* — Regular-Expressions.info. Available at: https://www.regular-expressions.info/ip.html
+
+[9] Python Software Foundation *concurrent.futures — Launching parallel tasks (ProcessPoolExecutor)*. Available at: https://docs.python.org/3/library/concurrent.futures.html
+
