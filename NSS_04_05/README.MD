@@ -78,20 +78,20 @@ Makes a report with any new file changes
 ## 🧪 Lab Report
 
 ### File Integrity Checker (`file_integrity_checker.py`)
-Acts as a host-based antivirus system by generating a baseline of cryptographic hashes (SHA-256) for each file in a target folder. Upon running it, the script traverses the directory (using pathlib); therefore, it reads each file in binary mode and computes its SHA-256 digest. Subsequently, all results are saved to file_baseline.csv with columns for file path, hash, and timestamp. Hence, executing the checker on test_folder produced entries like:
+Acts as a host-based antivirus system by generating a baseline of cryptographic hashes (SHA-256) for each file in a target folder [1]. Upon running it, the script traverses the directory (using pathlib); therefore, it reads each file in binary mode and computes its SHA-256 digest [5][1]. Subsequently, all results are saved to file_baseline.csv with columns for file path, hash, and timestamp. Hence, executing the checker on test_folder produced entries like:
 
 * test_folder/lecture_notes.txt — 25915767e543... (SHA-256) — 2025-11-19 13:47:31  
 * test_folder/linear_regression.py — 5f13caea50d2... — 2025-11-19 13:47:31  
 
-These unique fingerprints guarantee that even a single-byte change in a file will yield a completely different hash [1]. Based on integrity-checking theory, this method proves more reliable than just simple file size or timestamp checks. Therefore, by storing the baseline, our system can later detect unauthorised modifications relying on the comparison of new hashes against this “clean” state.
+These unique fingerprints guarantee that even a single-byte change in a file will yield a completely different hash [1]. Based on integrity-checking theory, this method proves more reliable than just simple file size or timestamp checks. Therefore, by storing the baseline, our system can later detect unauthorised modifications relying on the comparison of new hashes against this “clean” state [2].
 
 **Insights and Trade-offs:**  
-The covered checksum approach is used for detecting tampering; however, it still has limitations. Let's say legitimate updates (e.g. software patches or content changes) result in alteration of hashes, requiring regular baseline updates or a change management process. On a larger scale, hashing every file can be time-consuming on directories containing a significant dataset. Following this implementation, reading files in 4KB blocks mitigates memory load. Some of the potential improvements could include parallel hashing or selective scanning for high-risk files to further optimise performance.
+The covered checksum approach is used for detecting tampering; however, it still has limitations. Let's say legitimate updates (e.g. software patches or content changes) result in alteration of hashes, requiring regular baseline updates or a change management process. On a larger scale, hashing every file can be time-consuming on directories containing a significant dataset. Following this implementation, reading files in 4KB blocks mitigates memory load. Some of the potential improvements could include parallel hashing or selective scanning for high-risk files to further optimise performance [2].
 
 ---
 
 ### Detecting Suspicious File Changes (`detect_changes.py`)
-With the goal of strengthening the earlier build integrity baseline, the Detect Changes script (detect_changes.py) operates by comparing the current file hashes against the saved baseline to flag any differences. Based on them, it reads the baseline CSV into a dictionary (mapping file paths to their original hashes); furthermore, it then re-computes hashes for all existing files currently in the examined folder. By comparing these, our code identifies:
+With the goal of strengthening the earlier build integrity baseline, the Detect Changes script (detect_changes.py) operates by comparing the current file hashes against the saved baseline to flag any differences [2]. Based on them, it reads the baseline CSV into a dictionary (mapping file paths to their original hashes); furthermore, it then re-computes hashes for all existing files currently in the examined folder. By comparing these, our code identifies:
 
 * Modified files: Same filename present but with a different hash  
 * Deleted files: Files missing from the folder but present in the baseline  
@@ -108,7 +108,7 @@ Created: ['test_folder/new_script.py']
 ```
 
 **Insights and Trade-offs:**  
-The implementation of the change-detection method further complements basic antivirus scanning by catching any alteration, even if the captured change is unknown malware. Nevertheless, it can be thwarted by rootkits that simply hide or intercept file reads at the kernel level, making any malicious modifications invisible to our script. One improvement could be as simple as normalising paths (e.g., using pathlib.Path.resolve()) followed by an automatic update to the baseline after a verified software update. Also, the current script reports all new and changed files without distinction; future optimised versions could integrate logging or automated rollback for critical files, transforming passive detection into active response.
+The implementation of the change-detection method further complements basic antivirus scanning by catching any alteration, even if the captured change is unknown malware. Nevertheless, it can be thwarted by rootkits that simply hide or intercept file reads at the kernel level, making any malicious modifications invisible to our script [2]. One improvement could be as simple as normalising paths (e.g., using pathlib.Path.resolve()) followed by an automatic update to the baseline after a verified software update. Also, the current script reports all new and changed files without distinction; future optimised versions could integrate logging or automated rollback for critical files, transforming passive detection into active response.
 
 ---
 
@@ -150,7 +150,7 @@ Running the simulation (with defaults: 200 hosts, 5 attempts each, 0.4 infection
 The parameter’s inputs play a crucial role in the rate of infection; hence, doubling attempts_per_host to 10 significantly accelerates spread (reaching near saturation in fewer steps), demonstrating the impact of scanning aggressiveness.
 
 **Insights and Trade-offs:**  
-In real networks, crucial factors like topology, firewall rules, and varying host vulnerabilities each have their impact, potentially causing an alteration in the curve. Ways to improve the accuracy include modelling subnets (favouring local propagation, which often speeds spread) or adding a “cure” probability to simulate patching.
+In real networks, crucial factors like topology, firewall rules, and varying host vulnerabilities each have their impact, potentially causing an alteration in the curve [4]. Ways to improve the accuracy include modelling subnets (favouring local propagation, which often speeds spread) or adding a “cure” probability to simulate patching.
 
 ## 🔧 Challenges & Errors 
 
