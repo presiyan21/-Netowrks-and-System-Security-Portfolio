@@ -83,7 +83,7 @@ Acts as a host-based antivirus system by generating a baseline of cryptographic 
 * test_folder/lecture_notes.txt — 25915767e543... (SHA-256) — 2025-11-19 13:47:31  
 * test_folder/linear_regression.py — 5f13caea50d2... — 2025-11-19 13:47:31  
 
-These unique fingerprints guarantee that even a single-byte change in a file will yield a completely different hash. Based on integrity-checking theory, this method proves more reliable than just simple file size or timestamp checks. Therefore, by storing the baseline, our system can later detect unauthorised modifications relying on the comparison of new hashes against this “clean” state.
+These unique fingerprints guarantee that even a single-byte change in a file will yield a completely different hash [1]. Based on integrity-checking theory, this method proves more reliable than just simple file size or timestamp checks. Therefore, by storing the baseline, our system can later detect unauthorised modifications relying on the comparison of new hashes against this “clean” state.
 
 **Insights and Trade-offs:**  
 The covered checksum approach is used for detecting tampering; however, it still has limitations. Let's say legitimate updates (e.g. software patches or content changes) result in alteration of hashes, requiring regular baseline updates or a change management process. On a larger scale, hashing every file can be time-consuming on directories containing a significant dataset. Following this implementation, reading files in 4KB blocks mitigates memory load. Some of the potential improvements could include parallel hashing or selective scanning for high-risk files to further optimise performance.
@@ -118,7 +118,7 @@ It was developed to give real-time anomaly-based detection on network traffic. T
 ---
 
 ### Static Signature Scanner (`signature_scan.py`)
-It Emulates the workflow of antivirus scanning. Starting with searches across each file in our presented folder to detect known suspicious code patterns (signatures) via regular expressions. Some of the defined patterns could include calls or keywords commonly found in malware (e.g., eval(, base64.b64decode, socket.connect, exec(, import os). As it reads each file’s text content, the scanner logs any matches. As examined in our scanning test_folder flagged:
+It Emulates the workflow of antivirus scanning. Starting with searches across each file in our presented folder to detect known suspicious code patterns (signatures) via regular expressions. Some of the defined patterns could include calls or keywords commonly found in malware (e.g., eval(, base64.b64decode, socket.connect, exec(, import os) [3][9]. As it reads each file’s text content, the scanner logs any matches. As examined in our scanning test_folder flagged:
 
 * encoded_test.py -> Matches: ['base64\\.b64decode']  
 * test_malware.py -> Matches: ['eval\\(', 'exec\\(']  
@@ -133,12 +133,12 @@ test_folder/test_malware.py -> Matches: ['eval\\(', 'exec\\(']
 ```
 
 **Insights and Trade-offs:**  
-Obfuscated or polymorphic malware can evade the observed pattern checks. In the process of earlier development, there were some encountered issues: binary or very large files could not be read as text. Hence, as a precaution to handle this, the scanner uses `errors="ignore"` in read_text(), therefore causing the skipping of unreadable bytes. With that addition, it prevented crashes; however, a trade-off was that some content could be silently skipped. Most notably, a potential improvement could be to restrict scanning to text-based scripts only for the time being until more robust parsing has been achieved. Another significant consideration is the consistently present false positives: for instance, non-harmful code might use exec() innocuously.
+Obfuscated or polymorphic malware can evade the observed pattern checks [9]. In the process of earlier development, there were some encountered issues: binary or very large files could not be read as text. Hence, as a precaution to handle this, the scanner uses `errors="ignore"` in read_text(), therefore causing the skipping of unreadable bytes [6]. With that addition, it prevented crashes; however, a trade-off was that some content could be silently skipped. Most notably, a potential improvement could be to restrict scanning to text-based scripts only for the time being until more robust parsing has been achieved. Another significant consideration is the consistently present false positives: for instance, non-harmful code might use exec() innocuously.
 
 ---
 
 ### Worm Propagation Simulator (`worm_simulation.py`)
-It models how a self-replicating worm spreads through a network. It represents the network as a list of hosts (initially all clean except host 0, which is “patient zero”). As time progresses with each simulation step, every infected host makes a fixed number of random infection attempts (attempts_per_host), with infection_chance representing the probability of infection. Corresponding to each step, our script keeps track of the cumulative number of infected hosts (e.g., “Step 5: 57/200 hosts infected”).
+It models how a self-replicating worm spreads through a network [4]. It represents the network as a list of hosts (initially all clean except host 0, which is “patient zero”). As time progresses with each simulation step, every infected host makes a fixed number of random infection attempts (attempts_per_host), with infection_chance representing the probability of infection. Corresponding to each step, our script keeps track of the cumulative number of infected hosts (e.g., “Step 5: 57/200 hosts infected”).
 
 Running the simulation (with defaults: 200 hosts, 5 attempts each, 0.4 infection chance), as we can observe in the log, typically an exponential growth curve is achieved. For instance:
 
@@ -171,10 +171,10 @@ current_hashes[str(file)] = hash_file(file)
 
 ```python
 # write normalised paths
-writer.writerow([file.resolve().as_posix(), file_hash, timestamp])
+writer.writerow([file.resolve().as_posix(), file_hash, timestamp]) [5]
 
 # load/compare normalised paths
-key = Path(row["File Name"]).resolve().as_posix()
+key = Path(row["File Name"]).resolve().as_posix() [5]
 current_hashes[file.resolve().as_posix()] = hash_file(file)
 ```
 
@@ -223,7 +223,7 @@ from collections import deque
 history = {h: deque(maxlen=5) for h in range(HOSTS)}
 history[host].append(connections)
 avg = sum(history[host]) / len(history[host])
-adaptive_threshold = max(ANOMALY_THRESHOLD, int(avg * 2))
+adaptive_threshold = max(ANOMALY_THRESHOLD, int(avg * 2)) [10]
 if connections > adaptive_threshold:
     alert()
 ```
@@ -274,11 +274,32 @@ with open(output_csv, "w", ...) as csvfile:
 
 ```python
 import tempfile, os
-with tempfile.NamedTemporaryFile("w", delete=False, newline="", encoding="utf-8") as tmp:
+with tempfile.NamedTemporaryFile("w", delete=False, newline="", encoding="utf-8") as tmp: [7]
     writer = csv.writer(tmp)
     writer.writerow(...)
-os.replace(tmp.name, output_csv)
+os.replace(tmp.name, output_csv) [8]
 ```
 
 **Effect:** Prevents partial/corrupt baseline files; safe for concurrent runs.
 
+## References
+
+[1] National Institute of Standards and Technology (2015) *FIPS 180-4: Secure Hash Standard (SHS)*. Available at: https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.180-4.pdf
+
+[2] Sysdig (2021) *Top 9 file integrity monitoring (FIM) best practices*. Available at: https://sysdig.com/blog/file-integrity-monitoring
+
+[3] InfoSec Institute (2020) *Using Base64 for malware obfuscation*. Available at: https://www.infosecinstitute.com/resources/malware-analysis/using-base64-for-malware-obfuscation/
+
+[4] Staniford, S., Paxson, V. and Weaver, N. (2002) *How to 0wn the Internet in Your Spare Time*. USENIX Security Symposium. Available at: https://www.usenix.org/legacy/event/sec02/full_papers/staniford/staniford.pdf
+
+[5] Python Software Foundation (no date) *pathlib — Object-oriented filesystem paths*. Available at: https://docs.python.org/3/library/pathlib.html
+
+[6] Python Software Foundation (no date) *importlib.resources — Package resource reading, opening, and metadata access*. Available at: https://docs.python.org/3/library/importlib.resources.html
+
+[7] Python Software Foundation (no date) *tempfile — Generate temporary files and directories*. Available at: https://docs.python.org/3/library/tempfile.html
+
+[8] atomicwrites project (no date) *atomicwrites — safe, atomic file writes for Python*. Available at: https://python-atomicwrites.readthedocs.io/
+
+[9] Cloudmersive (2025) *Why Obfuscation is the First Step in Most Malware Campaigns*. Available at: https://cloudmersive.com/article/Why-Obfuscation-is-the-First-Step-in-Most-Malware-Campaigns
+
+[10] Zheng, X., et al. (2020) *Anomaly detection of network traffic based on prediction and adaptive threshold*. Available at: https://article.nadiapub.com/IJFGCN/vol8_no6/20.pdf
