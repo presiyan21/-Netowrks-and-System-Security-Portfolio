@@ -34,7 +34,7 @@ Each lab is structured as a standalone project (code, tests, sample inputs, and 
 
 # 📂 Weekly Labs
 
-## Week 3 — Secure Authentication  
+## Week 3 Secure Authentication  
 <details>
 <summary><strong>🔐 Secure Authentication Workshop (click to expand)</strong></summary>
 <br>
@@ -50,7 +50,7 @@ Each lab is structured as a standalone project (code, tests, sample inputs, and 
 
 ---
 
-## Week 4&5 — Malicious Software Analysis  
+## Week 4&5 Malicious Software Analysis  
 <details>
 <summary><strong>🦠 Malicious Software Analysis (click to expand)</strong></summary>
 <br>
@@ -65,7 +65,7 @@ Each lab is structured as a standalone project (code, tests, sample inputs, and 
 
 ---
 
-## Week 6 — Malware Analysis Toolkit  
+## Week 6 Malware Analysis Toolkit  
 <details>
 <summary><strong>🧬 Malware Analysis Toolkit (click to expand)</strong></summary>
 <br>
@@ -80,7 +80,7 @@ Each lab is structured as a standalone project (code, tests, sample inputs, and 
 
 ---
 
-## Week 7 — Penetration Testing Toolkit  
+## Week 7 Penetration Testing Toolkit  
 <details>
 <summary><strong>🕵️‍♂️ Penetration Testing Toolkit (click to expand)</strong></summary>
 <br>
@@ -95,7 +95,7 @@ Each lab is structured as a standalone project (code, tests, sample inputs, and 
 
 ---
 
-## Week 9 — LLM Security Testing Toolkit  
+## Week 9 LLM Security Testing Toolkit  
 <details>
 <summary><strong>🤖 LLM Security Testing Toolkit (click to expand)</strong></summary>
 <br>
