@@ -1,6 +1,6 @@
 <!-- CUSTOM BANNER -->
 <p align="center">
-  <img width="900" src="<img width="1536" height="1024" alt="portfolio" src="https://github.com/user-attachments/assets/ef14c043-0386-4d9d-8a95-c9d257313ceb" />
+<img width="1536" height="1024" alt="portfolio" src="https://github.com/user-attachments/assets/ef14c043-0386-4d9d-8a95-c9d257313ceb" />
 
 </p>
 
@@ -148,5 +148,3 @@ Each lab is structured as a standalone project (code, tests, sample inputs, and 
 <p align="center">
   <sub>✔️ Clean design • ✔️ Fast navigation • ✔️ Professional structure</sub>
 </p>
-
-<img width="1536" height="1024" alt="portfolio" src="https://github.com/user-attachments/assets/ef14c043-0386-4d9d-8a95-c9d257313ceb" />
