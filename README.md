@@ -4,15 +4,6 @@
 </p>
 
 <h1 align="center">🛡️ Network & System Security — Lab Portfolio</h1>
-
-<!-- BADGES -->
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/Tests-Pytest-0A9EDC?style=flat&logo=pytest&logoColor=white" />
-  <img src="https://img.shields.io/badge/Security-Labs-8A2BE2?style=flat&logo=trustpilot&logoColor=white" />
-  <img src="https://img.shields.io/badge/Documentation-Complete-success?style=flat&logo=readthedocs&logoColor=white" />
-</p>
-
 ---
 
 ## 📌 Navigation
