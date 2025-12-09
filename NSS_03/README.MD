@@ -74,7 +74,7 @@ python -m app.tests_unit
 
 ## Password Strength Analysis
 
-One of the first tools built to ensure user credentials are sufficiently strong. The meter's metrics consist of (≥8 chars, ≥12 chars) and character variety (lowercase, uppercase, digits, symbols). Furthermore, to strengthen the toolkit, another chosen feature was a blacklist consisting of commonly compromised passwords and prompting users to choose a different one. For example, the code returns:
+One of the first tools built to ensure user credentials are sufficiently strong [1]. The meter's metrics consist of (≥8 chars, ≥12 chars) and character variety (lowercase, uppercase, digits, symbols). Furthermore, to strengthen the toolkit, another chosen feature was a blacklist consisting of commonly compromised passwords and prompting users to choose a different one. For example, the code returns:
 
 ```python
 >> strength("password")
@@ -104,7 +104,7 @@ With the goal to further strengthen our system, we hash passwords with bcrypt (i
 
 MD5 and SHA-256 comparisons lead to the conclusion that fast hashes like SHA-256 are too fast for password storage while also being vulnerable to brute-force attacks [5]. Its inherent speed leads to both highly susceptible brute-force and rainbow table attacks. In contrast, the design of bcrypt makes it better suited by offering to be slow and adaptive. My `hash_password()` function uses `bcrypt.hashpw`, generating a string like `"$2b$12$..."` that embeds the salt and cost factor. The result output is extremely long (60+ chars), unlike the short hex of SHA-256. Crucially, bcrypt auto-salts each individual password while allowing the freedom to custom-tune the work factor (my model used cost=12 as default). When verifying, `bcrypt.checkpw` recomputes with the same salt.
 
-Even without bcrypt, our PBKDF2 fallback adds a random salt:
+Even without bcrypt, our PBKDF2 fallback adds a random salt [2]:
 
 ```python
 salt = os.urandom(16)
@@ -120,7 +120,7 @@ We also introduced a static pepper (`AUTH_PEPPER` from the environment). A peppe
 hash_password(password + PEPPER)
 ```
 
-Further simplified, if the hash DB is stolen, an attacker not possessing the pepper lacks resources to validate guesses. OWASP suggests pepper must be kept separate from the database (e.g. in an HSM or config) [1]. In practice, handling a pepper requires careful management: if the pepper is changed, it results in all existing hashes becoming invalid (a well-known limitation). Also, our pepper was optional (os.getenv default empty), so testing required ensuring a consistent environment.
+Further simplified, if the hash DB is stolen, an attacker not possessing the pepper lacks resources to validate guesses. OWASP suggests pepper must be kept separate from the database (e.g. in an HSM or config) [1]. In practice, handling a pepper requires careful management: if the pepper is changed, it results in all existing hashes becoming invalid (a well-known limitation) [1]. Also, our pepper was optional (os.getenv default empty), so testing required ensuring a consistent environment.
 
 * Example: The same password hashed twice with bcrypt produces different outputs (due to salt), e.g.:
 
@@ -167,9 +167,9 @@ Although not exhaustive due to time, I was able to incorporate a simulated mini 
 
 The `AuthSystem` class ties everything together. It provides two main methods:
 
-* `register(username, password)`: Checks that the username is new, runs the strength checker, and if strong enough creates a TOTP secret and hashes the password. The new user (with `username`, `pwd_hash`, and `totp_secret`) is saved to a JSON file via `UserStore`. We reject registration with a clear message if the password is weak (score <2) or the user exists.
+* `register(username, password)`: Checks that the username is new, runs the strength checker, and if strong enough creates a TOTP secret and hashes the password [3][4]. The new user (with `username`, `pwd_hash`, and `totp_secret`) is saved to a JSON file via `UserStore`. We reject registration with a clear message if the password is weak (score <2) or the user exists.
 
-* `authenticate(username, password, code)`: Looks up the user record, verifies the password against the stored hash, and if TOTP is required, verifies the given code. It returns `(True, "Authenticated")` only if both factors check out. Otherwise it returns an error message (“User not found”, “Invalid password”, or “Invalid TOTP”).
+* `authenticate(username, password, code)`: Looks up the user record, verifies the password against the stored hash, and if TOTP is required, verifies the given code [3]. It returns `(True, "Authenticated")` only if both factors check out. Otherwise it returns an error message (“User not found”, “Invalid password”, or “Invalid TOTP”).
 
 ### Example Run (Python REPL)
 
@@ -192,15 +192,15 @@ print(auth.authenticate("alice", "StrongPass123!", code))
 # True, 'Authenticated'
 ```
 
-This demonstrates the full flow: a successful registration (score≥2, hash stored, secret saved), and then step-by-step login attempts. The system correctly handles errors and only permits access with both credentials and code.
+This demonstrates the full flow: a successful registration (score≥2, hash stored, secret saved), and then step-by-step login attempts [6]. The system correctly handles errors and only permits access with both credentials and code.
 
-**Data Store:** I opted to use a simple `users.json` to mock a database. Each user entry stores the username, bcrypt hash, and TOTP secret. In practice, this JSON file must be protected (no DB crashes or concurrent writes) and should be replaced by a real user database.
+**Data Store:** I opted to use a simple `users.json` to mock a database. Each user entry stores the username, bcrypt hash, and TOTP secret [6]. In practice, this JSON file must be protected (no DB crashes or concurrent writes) and should be replaced by a real user database.
 
 One challenge was file I/O: if multiple processes ran the CLI, race conditions could occur. We mitigated this in testing by reloading from disk on each operation. Another issue was handling the case of a missing user (we raise `KeyError` or return “User not found” gracefully). Overall, the storage layer worked as intended for this demonstration.
 
 ## Challenges and Debugging
 
-**Environment setup:** Installing `bcrypt` and `pyotp` (with pip) was necessary. The addition of a `try/except` import for bcrypt was necessary so the code can run even if bcrypt is unavailable, falling back to PBKDF2. Initially, I forgot to encode/decode properly and saw type errors. These were fixed by ensuring we always work with bytes when hashing.
+**Environment setup:** Installing `bcrypt` and `pyotp` (with pip) was necessary [5][4]. The addition of a `try/except` import for bcrypt was necessary so the code can run even if bcrypt is unavailable, falling back to PBKDF2. Initially, I forgot to encode/decode properly and saw type errors. These were fixed by ensuring we always work with bytes when hashing.
 
 ```python
 # Before fix
@@ -222,7 +222,7 @@ Verification: True
 
 ---
 
-**PEPPER management:** Testing the pepper feature revealed that forgetting to set the `AUTH_PEPPER` environment variable would silently use an empty pepper. Hence I made the changes regarding testing environment to set a known pepper string. Further investigating that verifying passwords with an incorrect pepper correctly fails (ensuring the pepper mechanism works).
+**PEPPER management:** Testing the pepper feature revealed that forgetting to set the `AUTH_PEPPER` environment variable would silently use an empty pepper [1]. Hence I made the changes regarding testing environment to set a known pepper string. Further investigating that verifying passwords with an incorrect pepper correctly fails (ensuring the pepper mechanism works).
 
 ```bash
 # Consistent pepper
@@ -235,7 +235,7 @@ Verification: True
 
 ---
 
-**TOTP synchronisation:** There is inherent clock dependency in TOTP. The code set `valid_window=1` to allow ±30s drift. During testing of utmost importance was to ensure the system clock was accurate, else codes would not verify
+**TOTP synchronisation:** There is inherent clock dependency in TOTP [3]. The code set `valid_window=1` to allow ±30s drift. During testing of utmost importance was to ensure the system clock was accurate, else codes would not verify
 
 ```text
 Enter TOTP code from authenticator app: 482930
