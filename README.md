@@ -1,16 +1,31 @@
-<!-- HEADER BANNER -->
+<!-- CUSTOM BANNER -->
 <p align="center">
-  <img src="https://img.shields.io/badge/Network%20%26%20System%20Security-Portfolio-1f6feb?style=for-the-badge&logo=hackthebox&logoColor=white" alt="banner"/>
+  <img width="900" src="https://svg-banners.vercel.app/api?type=origin&text1=Presiyan%20Draganov%20%7C%20Network%20%26%20System%20Security&text2=Lab%20Portfolio&width=900&height=260" />
 </p>
 
 <h1 align="center">🛡️ Network & System Security — Lab Portfolio</h1>
 
+<!-- BADGES -->
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/Tests-Pytest-0A9EDC?style=flat&logo=pytest&logoColor=white" />
   <img src="https://img.shields.io/badge/Security-Labs-8A2BE2?style=flat&logo=trustpilot&logoColor=white" />
   <img src="https://img.shields.io/badge/Documentation-Complete-success?style=flat&logo=readthedocs&logoColor=white" />
 </p>
+
+---
+
+## 📌 Navigation
+
+- [🏠 Overview](#-network--system-security--lab-portfolio)
+- [📁 Weekly Labs](#-weekly-labs)
+  - [🔐 Week 3 — Secure Authentication](#week-3--secure-authentication)
+  - [🦠 Week 4 — Malicious Software Analysis](#week-4--malicious-software-analysis)
+  - [🧬 Week 6 — Malware Analysis Toolkit](#week-6--malware-analysis-toolkit)
+  - [🕵️‍♂️ Week 7 — Penetration Testing Toolkit](#week-7--penetration-testing-toolkit)
+  - [🤖 Week 9 — LLM Security Testing Toolkit](#week-9--llm-security-testing-toolkit)
+- [▶️ How to Review / Run](#%EF%B8%8F-how-to-review--run)
+- [🧩 Design Notes](#-design-notes-what-i-focused-on)
 
 ---
 
@@ -21,17 +36,19 @@ Each lab is structured as a standalone project (code, tests, sample inputs, and 
 
 ---
 
-## 📁 Quick Folder Map  
-*(What to open first)*
+## 📊 Weekly Lab Overview
 
-Open the folder for a week (e.g. `week-03-authentication`) → read its README → run the sample CLI/tests listed there.
+| Week | Title | Icon | Summary | Key Tech |
+|------|--------|------|----------|----------|
+| **3** | Secure Authentication Workshop | 🔐 | Layered authentication system with strength checks, salted hashing, TOTP 2FA. | Python, bcrypt/PBKDF2, pyotp |
+| **4** | Malicious Software Analysis | 🦠 | File integrity checks, anomaly detection, signature scanning, worm propagation. | Python, SHA-256, regex |
+| **6** | Malware Analysis Toolkit | 🧬 | Static PE analysis, IOC extraction, YARA rules. | pefile, yara-python |
+| **7** | Penetration Testing Toolkit | 🕵️‍♂️ | Reconnaissance, HTTP enumeration, threaded port scanning, Nmap integration. | requests, socket, python-nmap |
+| **9** | LLM Security Testing Toolkit | 🤖 | Prompt injection, poisoning simulations, extraction behaviour, HTML/MD reporting. | Ollama, Jinja2, markdown2 |
 
 ---
 
-# 📂 Weekly Labs  
-Below each week’s summary is placed inside a **collapsible section** for clean navigation.
-
----
+# 📂 Weekly Labs
 
 ## Week 3 — Secure Authentication  
 <details>
@@ -129,3 +146,4 @@ Below each week’s summary is placed inside a **collapsible section** for clean
 <p align="center">
   <sub>✔️ Clean design • ✔️ Fast navigation • ✔️ Professional structure</sub>
 </p>
+
