@@ -65,13 +65,13 @@ Results are written to `report.txt` and include:
 **`core.utils.safe_socket()`** creates a socket with a timeout and is used with a `with` statement:
 
 ```python
-def safe_socket(timeout=1.0):
+def safe_socket(timeout=1.0):  [1]
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.settimeout(timeout)
     return sock
 ```
 
-**`core.utils.timestamp()`** centralises timestamps for all reports.
+**`core.utils.timestamp()`** centralises timestamps for all reports. [2]
 
 **Why this matters:** centralised utilities reduce potential duplication (single timeout config) hence resulting in consistent behaviour across scanning of modules.
 
@@ -82,7 +82,7 @@ def safe_socket(timeout=1.0):
 **`core.validators.validate_host()`** enforces `SAFE_MODE`:
 
 ```python
-from config.settings import SAFE_MODE, ALLOWED_HOSTS
+from config.settings import SAFE_MODE, ALLOWED_HOSTS  [3]
 
 def validate_host(host):
     if not SAFE_MODE:
@@ -97,11 +97,11 @@ def validate_host(host):
     )
 ```
 
-**Practical effect:** any attempt to scan a disallowed IP raises `PermissionError`. Observed in the `report.txt`:
+**Practical effect:** any attempt to scan a disallowed IP raises `PermissionError`. Observed in the `report.txt`: [3]
 
 ```
 === Domain Lookup (2025-11-20 13:32:46) ===
-{'error': "Resolution failed: Scanning '185.158.133.1' blocked: SAFE_MODE enabled.\nAllowed hosts: ['127.0.0.1', 'localhost']"}
+{'error': "Resolution failed: Scanning '185.158.133.1' blocked: SAFE_MODE enabled.\nAllowed hosts: ['127.0.0.1', 'localhost']"} [3]
 ```
 
 **Why this matters:** legal/ethical safety is a core requirement for network tooling; `SAFE_MODE` solidifies our application by preventing accidental scanning of external infrastructure during development.
@@ -113,14 +113,14 @@ def validate_host(host):
 **`reconnaissance.passive_recon.fetch_headers()`** calls `requests.head()`:
 
 ```python
-res = requests.head(url, timeout=3, headers={"User-Agent": USER_AGENT})
+res = requests.head(url, timeout=3, headers={"User-Agent": USER_AGENT}) [4]
 return {
     "server": res.headers.get("Server", "Hidden/Unknown"),
     "content_type": res.headers.get("Content-Type", "Unknown"),
 }
 ```
 
-**Notes:** using `HEAD` is lightweight; the User-Agent is configurable via `config.settings.USER_AGENT`. The recorded example shows Cloudflare as the server:
+**Notes:** using `HEAD` is lightweight; the User-Agent is configurable via `config.settings.USER_AGENT` [4].  The recorded example shows Cloudflare as the server:
 
 ```
 === Black-Box Web Enumeration (2025-11-20 13:32:46) ===
@@ -140,7 +140,7 @@ content_type: Unknown
 
 ### Threaded Port Scanner
 
-**`scanning.threaded_port_scanner.threaded_scan()`** uses a `ThreadPoolExecutor` to parallelise TCP connect checks via `scanning.basic_port_scanner.scan_port()`:
+**`scanning.threaded_port_scanner.threaded_scan()`** uses a `ThreadPoolExecutor` to parallelise TCP connect checks via `scanning.basic_port_scanner.scan_port()` [5]:
 
 ```python
 def threaded_scan(host, ports, workers=20):
@@ -150,7 +150,7 @@ def threaded_scan(host, ports, workers=20):
     def task(port):
         return port if scan_port(host, port) else None
 
-    with ThreadPoolExecutor(max_workers=workers) as exe:
+    with ThreadPoolExecutor(max_workers=workers) as exe: [5]
         for r in exe.map(task, ports):
             if r:
                 results.append(r)
@@ -162,7 +162,7 @@ def threaded_scan(host, ports, workers=20):
 
 * `scan_port()` uses `safe_socket()` and `sock.connect_ex((host, port))` returning `True` for open ports.
 * The main run scans `127.0.0.1` ports 1-200 and the report shows an example result: `Open Ports: [135]`.
-* `test_threaded.py` offers a quick local check:
+* `test_threaded.py` offers a quick local check [5]:
 
 ```python
 from scanning.threaded_port_scanner import threaded_scan
@@ -178,8 +178,8 @@ print(threaded_scan('127.0.0.1', range(1,100)))
 **`scanning.nmap_interface.nmap_service_scan()`** wraps python-nmap:
 
 ```python
-scanner = nmap.PortScanner()
-scanner.scan(host, port_range, arguments="-sV")
+scanner = nmap.PortScanner() [6]
+scanner.scan(host, port_range, arguments="-sV") [6][7]
 ...
 for h in scanner.all_hosts():
     for proto in scanner[h].all_protocols():
@@ -195,10 +195,10 @@ for h in scanner.all_hosts():
 
 ### Reporting
 
-**`core.report_writer.write_report()`** appends timestamped sections to `report.txt`:
+**`core.report_writer.write_report()`** appends timestamped sections to `report.txt` [8]:
 
 ```python
-with open(path, "a") as f:
+with open(path, "a") as f: 
     f.write(f"\n=== {title} ({timestamp()}) ===\n")
     for line in data:
         f.write(f"{line}\n")
@@ -249,3 +249,20 @@ print(threaded_scan('127.0.0.1', range(1,100)))
 * Network code correctly uses timeouts and exception blocks in `passive_recon.fetch_headers()` and `domain_lookup()`.
 * **Opportunity:** unify timeout values — `config.settings.DEFAULT_TIMEOUT` exists but `safe_socket()` uses a hard-coded 1.0 default. Centralising the timeout would reduce divergence.
 
+## References
+
+[1] Python Software Foundation (no date) *socket — Low-level networking interface*. Available at: https://docs.python.org/3/library/socket.html
+
+[2] Python Software Foundation (no date) *datetime — Basic date and time types*. Available at: https://docs.python.org/3/library/datetime.html
+
+[3] OWASP Foundation (no date) *OWASP Testing Guide / Legal and Ethical Testing Considerations*. Available at: https://owasp.org/www-project-web-security-testing-guide/
+
+[4] Python-Requests Community (no date) *Requests: HTTP for Humans — Quickstart / API*. Available at: https://docs.python-requests.org/en/latest/
+
+[5] Python Software Foundation (no date) *concurrent.futures — Launching parallel tasks*. Available at: https://docs.python.org/3/library/concurrent.futures.html
+
+[6] python-nmap project (no date) *python-nmap — PortScanner for Nmap*. Available at: https://pypi.org/project/python-nmap/
+
+[7] Fyodor (no date) *Nmap Reference — Version Detection (-sV)*. Available at: https://nmap.org/book/man-version-detection.html
+
+[8] Python Software Foundation (no date) *open() — Built-in function for file I/O*. Available at: https://docs.python.org/3/library/functions.html#open
