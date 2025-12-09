@@ -86,9 +86,9 @@ One of the first tools built to ensure user credentials are sufficiently strong.
 
 This output indicates the user-chosen "password" scores 0 and triggers feedback (appears in breach lists) prompts like "add uppercase, digits, and symbols". By doing so in contrast, "StrongPass123!" scores 6 on our scale with no visible errors shown.
 
-Entropy being another concept primarily studied in different aspects of science like chemistry or physics (measuring the amount of disorder), we can estimate it in passwords using the formula `E = L·log₂(pool)`, pool being the number of possible characters (e.g. 52 lower and uppercase in English, 10 digits, etc.). Using our examples from earlier, "password" makes use of just 26 lowercases, in contrast, the other candidate "StrongPass123!" makes use of all classes. Therefore, entropy is sufficiently higher using the equation, proving why it’s stronger.
+Entropy being another concept primarily studied in different aspects of science like chemistry or physics (measuring the amount of disorder), we can estimate it in passwords using the formula `E = L·log₂(pool)`, pool being the number of possible characters (e.g. 52 lower and uppercase in English, 10 digits, etc.). Using our examples from earlier, "password" makes use of just 26 lowercases, in contrast, the other candidate "StrongPass123!" makes use of all classes. Therefore, entropy is sufficiently higher using the equation, proving why it’s stronger [7].
 
-Takeaways: Minimum length (8/12 chars), mixed char types, no common passwords.
+Takeaways: Minimum length (8/12 chars), mixed char types, no common passwords [8].
 
 ```python
 # Sample code:
@@ -157,9 +157,9 @@ After accounting for this, I came into realisation of a practical issue: my code
 
 ## Brute-Force Attack Simulation
 
-Although not exhaustive due to time, I was able to incorporate a simulated mini dictionary attack, hence showcasing the difference in speed for hashes. Further leveraging the common password list (e.g. `["password","123456","admin"]`), it enabled a comparison for time taken to crack an MD5 or SHA-256 hash vs a bcrypt hash [5]. Being already present in the list, the MD5 hash of "password" (`5f4dcc3b...`) was found instantly by trying “password”. In contrast, attempting even a short list of bcrypt hashes would take comparatively longer (each bcrypt verification might take ~0.1s due to the system's work factor). In fact, the script was purposely not built with this intent, as cracking the bcrypt hash would be impractically slow. This highlights the core point: fast hashes enable rapid brute-forcing (e.g. millions of guesses per second), while bcrypt slows attackers to only a few hundred hashes/sec.
+Although not exhaustive due to time, I was able to incorporate a simulated mini dictionary attack, hence showcasing the difference in speed for hashes. Further leveraging the common password list (e.g. `["password","123456","admin"]`), it enabled a comparison for time taken to crack an MD5 or SHA-256 hash vs a bcrypt hash [5]. Being already present in the list, the MD5 hash of "password" (`5f4dcc3b...`) was found instantly by trying “password”. In contrast, attempting even a short list of bcrypt hashes would take comparatively longer (each bcrypt verification might take ~0.1s due to the system's work factor). In fact, the script was purposely not built with this intent, as cracking the bcrypt hash would be impractically slow. This highlights the core point: fast hashes enable rapid brute-forcing (e.g. millions of guesses per second), while bcrypt slows attackers to only a few hundred hashes/sec [5].
 
-**Observation:** SHA-256 can compute millions of hashes per second, whereas bcrypt is intentionally throttled to only a few hundred. Our brute-force demo showed “password” cracked in milliseconds with MD5/SHA, but would take years if it were bcrypt (at our cost setting). This stark contrast validates why a slow, salted algorithm is mandatory for real password storage.
+**Observation:** SHA-256 can compute millions of hashes per second, whereas bcrypt is intentionally throttled to only a few hundred [5]. Our brute-force demo showed “password” cracked in milliseconds with MD5/SHA, but would take years if it were bcrypt (at our cost setting). This stark contrast validates why a slow, salted algorithm is mandatory for real password storage.
 
 ---
 
