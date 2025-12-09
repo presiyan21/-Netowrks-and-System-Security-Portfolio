@@ -28,13 +28,13 @@ Each lab is structured as a standalone project (code, tests, sample inputs, and 
 
 ## 📊 Weekly Lab Overview
 
-| Week | Title | Icon | Summary | Key Tech |
-|------|--------|------|----------|----------|
-| **3** | Secure Authentication Workshop | 🔐 | Layered authentication system with strength checks, salted hashing, TOTP 2FA. | Python, bcrypt/PBKDF2, pyotp |
-| **4** | Malicious Software Analysis | 🦠 | File integrity checks, anomaly detection, signature scanning, worm propagation. | Python, SHA-256, regex |
-| **6** | Malware Analysis Toolkit | 🧬 | Static PE analysis, IOC extraction, YARA rules. | pefile, yara-python |
-| **7** | Penetration Testing Toolkit | 🕵️‍♂️ | Reconnaissance, HTTP enumeration, threaded port scanning, Nmap integration. | requests, socket, python-nmap |
-| **9** | LLM Security Testing Toolkit | 🤖 | Prompt injection, poisoning simulations, extraction behaviour, HTML/MD reporting. | Ollama, Jinja2, markdown2 |
+| Week | Title  | Summary | Key Tech |
+|------|--------|----------|----------|
+| **3** | Secure Authentication Workshop | Layered authentication system with strength checks, salted hashing, TOTP 2FA. | Python, bcrypt/PBKDF2, pyotp |
+| **4&5** | Malicious Software Analysis | File integrity checks, anomaly detection, signature scanning, worm propagation. | Python, SHA-256, regex |
+| **6** | Malware Analysis Toolkit | Static PE analysis, IOC extraction, YARA rules. | pefile, yara-python |
+| **7** | Penetration Testing Toolkit | Reconnaissance, HTTP enumeration, threaded port scanning, Nmap integration. | requests, socket, python-nmap |
+| **9** | LLM Security Testing Toolkit | Prompt injection, poisoning simulations, extraction behaviour, HTML/MD reporting. | Ollama, Jinja2, markdown2 |
 
 ---
 
@@ -56,7 +56,7 @@ Each lab is structured as a standalone project (code, tests, sample inputs, and 
 
 ---
 
-## Week 4 — Malicious Software Analysis  
+## Week 4&5 — Malicious Software Analysis  
 <details>
 <summary><strong>🦠 Malicious Software Analysis (click to expand)</strong></summary>
 <br>
