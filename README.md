@@ -17,7 +17,7 @@
 ## 🎯 Purpose
 
 I built small, focused toolkits that turn course concepts into **repeatable, testable practice**.  
-Each lab is structured as a standalone project (code, tests, sample inputs, and a written lab report).
+Each lab is structured as a standalone project (code, tests, sample inputs, and a lab report).
 ---
 
 ## 📊 Weekly Lab Overview
